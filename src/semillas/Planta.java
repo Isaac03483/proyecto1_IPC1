@@ -56,7 +56,13 @@ public abstract class Planta extends Thread{
     
     public abstract void colocarImagen(ImageIcon imagen);
 
-    public abstract void elegirTerreno(Grama terreno, JLabel etiqueta);
+    public void elegirTerreno(Grama terreno, JLabel etiqueta) {
+
+        this.terreno = terreno;
+        this.imagenEtiqueta = etiqueta;
+        
+        
+    }
 
     public void agregarProducto(Producto productoNuevo){
 

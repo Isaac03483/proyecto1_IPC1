@@ -1,13 +1,17 @@
 package semillas;
 
 import javax.swing.*;
+
+import enums.EstadoGrama;
+
 import java.awt.*;
-import terrenos.Grama;
+import static ventanas.Juego.actualizarCeldasSembradas;
 
 public class Fruto extends Planta{
 
     static ImageIcon imagenFruto = new ImageIcon("manzana.png");
     static ImageIcon imagenListo = new ImageIcon("manzanaLista.png");
+    private int cantidadProducto;
 
     public Fruto(String nombre, int vida, double precio){
         super(nombre, vida, precio);
@@ -19,6 +23,43 @@ public class Fruto extends Planta{
     @Override
     public void run(){
         
+        int tiempoVida = this.getVida()/this.producto.getCantidad();
+        this.cantidadProducto=0;
+        this.imagenEtiqueta.setVisible(true);
+        colocarImagen(imagenFruto);
+        this.terreno.cambiarEstado(EstadoGrama.CONSIEMBRA);
+
+        do{
+            
+            this.terreno.setToolTipText("Cantidad de: "+this.producto.getNombre()+" adquiridas: "+this.cantidadProducto);
+            try{
+
+                Fruto.sleep(tiempoVida*1000);
+            } catch(InterruptedException e){
+                JOptionPane.showMessageDialog(null, "Error en clase Fruto.", "SurvivalVille", JOptionPane.ERROR_MESSAGE);
+            }
+
+            
+            if(this.terreno.getEstado() == EstadoGrama.CONSIEMBRA){
+                this.vida-=tiempoVida;
+                this.cantidadProducto++;
+                
+                colocarImagen(imagenListo);
+                this.terreno.cambiarEstado(EstadoGrama.FRUTOLISTO);
+            } else {
+                this.vida-=tiempoVida;
+                this.cantidadProducto++;
+            }
+            
+            
+        } while(this.vida > 0);
+
+        this.imagenEtiqueta.setVisible(false);
+        this.terreno.cambiarEstado(EstadoGrama.DISPONIBLE);
+        JOptionPane.showMessageDialog(null, "La siembra de "+this.producto.getNombre()+" ha muerto.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
+        actualizarCeldasSembradas(this);
+        
+
     }
 
     @Override
@@ -28,13 +69,14 @@ public class Fruto extends Planta{
     }
 
 
-    @Override
-    public void elegirTerreno(Grama terreno, JLabel etiqueta) {
-
-        this.terreno = terreno;
-        this.imagenEtiqueta = etiqueta;
+    public int getCantidadProducto(){
+        int intercambio;
+        intercambio = this.cantidadProducto;
+        this.cantidadProducto=0;
         colocarImagen(imagenFruto);
-        
+        return intercambio;
     }
+
+    
     
 }

@@ -6,12 +6,15 @@ import javax.swing.*;
 import enums.EstadoBarco;
 import enums.EstadoGrama;
 import enums.EstadoLago;
+import enums.TipoProducto;
 
 import java.awt.event.*;
 import terrenos.Lago;
 import terrenos.*;
 import juego.*;
-
+import productos.Alimento;
+import semillas.*;
+import static ventanas.Menu.*;
 import static ventanas.Inicio.p1;
 
 public class Juego extends JFrame{
@@ -21,7 +24,7 @@ public class Juego extends JFrame{
     public static JLabel[][] objetos;
     public static JLabel granero, etiquetaNickName, etiquetaOro, etiquetaVida, etiquetaCorazon, etiquetaMoneda, etiquetaPersonaje, etiquetaMercado;
     public static JButton botonVolver;
-    public static JToggleButton verTerreno, sembrar, pescar, crearParcela, comprarTerreno;
+    public static JToggleButton verTerreno,crearParcela, comprarTerreno;
     public static final int precioTierra = 20;
     public static int x = 60, y = 160;
     public static int indiceBarco;
@@ -65,31 +68,20 @@ public class Juego extends JFrame{
         verTerreno = new JToggleButton("Ver terreno", false);
         verTerreno.setBounds(800,160,175,30);
         panel.add(verTerreno);
-
-        sembrar = new JToggleButton("Sembrar", false);
-        sembrar.setBounds(800,200,175,30);
-        panel.add(sembrar);
-
-        pescar = new JToggleButton("Pescar", false);
-        pescar.setBounds(800, 240, 175, 30);
-        panel.add(pescar);
+        verTerreno.setSelected(true);
 
         crearParcela = new JToggleButton("Crear Parcela", false);
-        crearParcela.setBounds(800,280,175,30);
+        crearParcela.setBounds(800,200,175,30);
         panel.add(crearParcela);
 
         comprarTerreno = new JToggleButton("Comprar Terreno", false);
-        comprarTerreno.setBounds(800,320,175,30);
+        comprarTerreno.setBounds(800,240,175,30);
         panel.add(comprarTerreno);
         ButtonGroup grupoBotones = new ButtonGroup();
         grupoBotones.add(verTerreno);
-        grupoBotones.add(sembrar);
-        grupoBotones.add(pescar);
         grupoBotones.add(crearParcela);
         grupoBotones.add(comprarTerreno);
 
-        oyenteSembrar();
-        oyentePescar();
         oyenteVer();
         oyenteComprar();
         oyenteParcela();
@@ -277,12 +269,12 @@ public class Juego extends JFrame{
             public void mouseClicked(MouseEvent arg0) {
                 if(terreno[i][j] instanceof Grama){
 
-                    if(sembrar.isSelected()){
+                    if(verTerreno.isSelected()){
                        accionesGrama(i, j);
                     }
 
                 } else if(terreno[i][j] instanceof Lago){
-                    if(pescar.isSelected()){
+                    if(verTerreno.isSelected()){
 
                         accionesLago(i, j);
                        
@@ -389,11 +381,18 @@ public class Juego extends JFrame{
 
             objetos[i][j].setVisible(false);
             p1.agregarProducto(((Grama)terreno[i][j]).getPlanta().getProducto());
+            Juego.actualizarCeldasSembradas(((Grama)terreno[i][j]).getPlanta());
             JOptionPane.showMessageDialog(null, "Se ha recogido la siembra con éxito.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
             ((Grama)terreno[i][j]).cambiarEstado(EstadoGrama.DISPONIBLE);
 
-        } else if(((Grama)terreno[i][j]).getEstado() == EstadoGrama.INFERTIL){
+        } else if(((Grama)terreno[i][j]).getEstado() == EstadoGrama.FRUTOLISTO){
 
+            p1.agregarProducto(new Alimento(((Grama)terreno[i][j]).getPlanta().getNombre(), ((Grama)terreno[i][j]).getPlanta().getPrecio(), ((Fruto)((Grama)terreno[i][j]).getPlanta()).getCantidadProducto(), ((Grama)terreno[i][j]).getPlanta().getVida(), TipoProducto.SINDESTAZAR));
+            JOptionPane.showMessageDialog(null, "Se ha recogido una parte de los productos.", "SuvivalVille", JOptionPane.INFORMATION_MESSAGE);
+            terreno[i][j].setToolTipText("");
+            ((Grama)terreno[i][j]).cambiarEstado(EstadoGrama.CONSIEMBRA);
+        } else if(((Grama)terreno[i][j]).getEstado() == EstadoGrama.INFERTIL){
+            
         }
     }
 
@@ -450,62 +449,7 @@ public class Juego extends JFrame{
         botonVolver.addActionListener(oyenteAccion); //agregamos evento al boton
     }
 
-    //agregamos evento al JToggleButton
-    private void oyenteSembrar(){
-        ActionListener oyenteAccion = new ActionListener(){
-
-            @Override
-            public void actionPerformed(ActionEvent ae){
-                for(int i = 0; i < 7; i++){
-
-                    for(int j = 0; j<7; j++){
-
-                        if(terreno[i][j].isEnabled() && terreno[i][j] instanceof Grama){ //si el terreno está desbloqueado y la instancia del objeto es Grama
-                            terreno[i][j].setVisible(true); //mostramos el terreno
-                            if(((Grama)terreno[i][j]).getEstado() == EstadoGrama.CONSIEMBRA || ((Grama)terreno[i][j]).getEstado() == EstadoGrama.SIEMBRALISTA){
-                                objetos[i][j].setVisible(true);
-                            }
-                        } else {
-                            terreno[i][j].setVisible(false); //ocultamos todos los terrenos que no cumplan con estas condiciones
-                            objetos[i][j].setVisible(false); //ocultamos los objetos de estos terrenos
-
-                        }
-                    }
-                }
-            }
-        };
-
-        sembrar.addActionListener(oyenteAccion); //agregamos evento al boton
-    }
-
-    private void oyentePescar(){
-        ActionListener oyenteAccion = new ActionListener(){
-
-            @Override
-            public void actionPerformed(ActionEvent ae){
-                for(int i = 0; i < 7; i++){
-
-                    for(int j = 0; j<7; j++){
-
-                        if(terreno[i][j].isEnabled() && terreno[i][j] instanceof Lago){ //si el terreno es desbloqueado y la instancia es un Lago
-                            terreno[i][j].setVisible(true); //mostramos el terreno
-                            if(((Lago)terreno[i][j]).getEstado() == EstadoLago.CONBARCO){
-                                objetos[i][j].setVisible(true);
-                            }
-                            
-                        } else { //si no cumple con las condiciones ocultamos todos los terrenos y objetos
-                            terreno[i][j].setVisible(false);
-                            objetos[i][j].setVisible(false);
-                           
-
-                        }
-                    }
-                }
-            }
-        };
-
-        pescar.addActionListener(oyenteAccion);
-    }
+    
 
     private void oyenteVer(){
         ActionListener oyenteAccion = new ActionListener(){
@@ -523,7 +467,7 @@ public class Juego extends JFrame{
                                     objetos[i][j].setVisible(true);
                                 }
                             } else if(terreno[i][j] instanceof Grama){
-                                if(((Grama)terreno[i][j]).getEstado() == EstadoGrama.CONSIEMBRA){
+                                if(((Grama)terreno[i][j]).getEstado() == EstadoGrama.CONSIEMBRA || ((Grama)terreno[i][j]).getEstado() == EstadoGrama.SIEMBRALISTA){
                                     objetos[i][j].setVisible(true);
                                 }
                             }
@@ -567,15 +511,67 @@ public class Juego extends JFrame{
             @Override
             public void actionPerformed(ActionEvent ae){
                 for(int i = 0; i < 7; i++){
-                    for(int j = 0; j <6; j++){
-                        if(terreno[i][j] instanceof Grama && terreno[i][j+1] instanceof Grama){
-                            if(terreno[i][j].isVisible() && terreno[i][j+1].isVisible()){
+                    for(int j = 0; j <7; j+=2){
+                        
+                        if(terreno[i][j].isEnabled() && terreno[i][j].isVisible()){
+
+                            if(terreno[i][j] instanceof Grama){
                                 terreno[i][j].setVisible(true);
-                                terreno[i][j+1].setVisible(true);
+                                if(j == 0){ //condición en la que el ciclo se encuentra en la primera columna
+                                    if(i == 0){ //si el contador se encuentra en la primera fila
+                                        if(terreno[i][j+1] instanceof Lago){
+                                            if(terreno[i][j+1].isEnabled()){
+                                                terreno[i][j+1].setVisible(true);
+                                            }
+
+                                        if(terreno[i+1][j] instanceof Lago){
+                                            if(terreno[i+1][j].isEnabled()){
+                                                terreno[i+1][j].setVisible(true);
+                                            }
+                                        }
+    
+                                        } else {
+                                            terreno[i][j].setVisible(false);
+                                            terreno[i][j+1].setVisible(false);
+                                        }
+                                    } else if (i == 6){ //si el contador se encuentra en la ultima fila
+                                        if(terreno[i][j+1] instanceof Lago){
+                                            if(terreno[i][j+1].isEnabled()){
+                                                terreno[i][j].setVisible(true);
+                                                terreno[i][j+1].setVisible(true);
+                                            }
+                                        } else {
+                                            terreno[i][j].setVisible(false);
+                                            terreno[i][j+1].setVisible(false);
+                                        }
+    
+                                        if(terreno[i-1][j] instanceof Lago){
+                                            if(terreno[i-1][j].isEnabled()){
+                                                terreno[i][j].setVisible(true);
+                                                terreno[i-1][j].setVisible(true);
+                                            }
+                                        } else {
+                                            terreno[i][j].setVisible(false);
+                                            terreno[i-1][j].setVisible(false);
+                                        }
+                                        
+                                    } else {
+                                        if(terreno[i][j+1] instanceof Lago){
+                                            terreno[i][j+1].setVisible(true);
+                                        }
+    
+                                        if(terreno[i-1][j] instanceof Lago){
+                                            terreno[i-1][j].setVisible(true);
+                                        }
+    
+                                        if(terreno[i+1][j] instanceof Lago){
+                                            terreno[i+1][j].setVisible(true);
+                                        }
+                                    }
+                                }
+                            } else {
+                                terreno[i][j].setVisible(false);
                             }
-                        } else {
-                            terreno[i][j].setVisible(false);
-                            terreno[i][j+1].setVisible(false);
                         }
                     }
                 }
@@ -583,6 +579,29 @@ public class Juego extends JFrame{
         };
 
         crearParcela.addActionListener(oyenteAccion);
+    }
+
+    public static void actualizarCeldasSembradas(Planta semilla){
+        int indice =0;
+        if(semilla instanceof Grano){
+            for(int i = 0; i < granos.length; i++){
+                if(semilla.getNombre() == granos[i].getNombre()){
+                    indice = i;
+                    break;
+                }
+            }
+
+            granos[indice].setCeldasSembradas();
+        } else if (semilla instanceof Fruto){
+            for(int i = 0; i < frutos.length; i++){
+                if(semilla.getNombre() == frutos[i].getNombre()){
+                    indice = i;
+                    break;
+                }
+            }
+
+            frutos[indice].setCeldasSembradas();
+        }
     }
 
 

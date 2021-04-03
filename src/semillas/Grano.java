@@ -26,6 +26,7 @@ public class Grano extends Planta{
     public void run(){
         this.terreno.cambiarEstado(EstadoGrama.CONSIEMBRA);
         this.imagenEtiqueta.setVisible(true);
+        colocarImagen(imagenGrano);
         do {
             try {
                 Grano.sleep(1000);
@@ -33,7 +34,7 @@ public class Grano extends Planta{
                 JOptionPane.showMessageDialog(null, "Error en clase Grano.", "SurvivalVille", JOptionPane.ERROR_MESSAGE);
             }
             this.vida--;
-            this.terreno.setToolTipText("La siembra estará lista en: "+this.vida);
+            this.terreno.setToolTipText("Cosechando: "+this.nombre+" tiempo restante: "+this.vida);
         } while(this.vida > 0);
 
         
@@ -49,16 +50,6 @@ public class Grano extends Planta{
         this.imagenEtiqueta.setIcon(new ImageIcon(imagen.getImage().getScaledInstance(this.imagenEtiqueta.getWidth(), this.imagenEtiqueta.getHeight(), Image.SCALE_SMOOTH)));
         
 
-    }
-
-
-    @Override
-    public void elegirTerreno(Grama terreno, JLabel etiqueta) {
-
-        this.terreno = terreno;
-        this.imagenEtiqueta = etiqueta;
-        colocarImagen(imagenGrano);
-        
     }
 
 }
