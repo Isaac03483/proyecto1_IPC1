@@ -11,6 +11,7 @@ import java.awt.event.*;
 import terrenos.Lago;
 import terrenos.*;
 import juego.*;
+
 import static ventanas.Inicio.p1;
 
 public class Juego extends JFrame{
@@ -359,10 +360,37 @@ public class Juego extends JFrame{
 
     private void accionesGrama(int i, int j){
         if(((Grama)terreno[i][j]).getEstado() == EstadoGrama.DISPONIBLE){
+            int opcionSemilla=0;
 
+            try{
+                opcionSemilla= Integer.parseInt(JOptionPane.showInputDialog(null, "Semillas disponibles:"
+                +"\n0. Volver"
+                +"\n"+Bodega.presentarSemillas()
+                +"\nIngrese el número de semilla que desea sembrar.", "SurvivalVille",JOptionPane.INFORMATION_MESSAGE));
+
+                switch(opcionSemilla){
+                    case 0:
+                    break;
+                    default:
+                    p1.colocarSemilla((Grama)terreno[i][j], objetos[i][j] ,opcionSemilla);
+                    break;
+                }
+
+            } catch(NumberFormatException e){
+                JOptionPane.showMessageDialog(null, "Debe ingresar un valor numérico.", "SurvivalVille", JOptionPane.ERROR_MESSAGE);
+
+            }
+            
         } else if(((Grama)terreno[i][j]).getEstado() == EstadoGrama.CONSIEMBRA){
 
+            JOptionPane.showMessageDialog(null, "La siembra aún no se encuentra lista.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
+
         } else if (((Grama)terreno[i][j]).getEstado() == EstadoGrama.SIEMBRALISTA){
+
+            objetos[i][j].setVisible(false);
+            p1.agregarProducto(((Grama)terreno[i][j]).getPlanta().getProducto());
+            JOptionPane.showMessageDialog(null, "Se ha recogido la siembra con éxito.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
+            ((Grama)terreno[i][j]).cambiarEstado(EstadoGrama.DISPONIBLE);
 
         } else if(((Grama)terreno[i][j]).getEstado() == EstadoGrama.INFERTIL){
 
@@ -467,6 +495,7 @@ public class Juego extends JFrame{
                             
                         } else { //si no cumple con las condiciones ocultamos todos los terrenos y objetos
                             terreno[i][j].setVisible(false);
+                            objetos[i][j].setVisible(false);
                            
 
                         }

@@ -128,11 +128,11 @@ public class Bodega {
 
         String presentar="";
         for(int i=0; i < p1.getArregloProductos().length;i++){
-            if(opcionBodega ==4){
+            if(opcionBodega ==5){
                 if(p1.getArregloProductos()[i] instanceof Alimento){
                     presentar+=(i+1)+". "+p1.getInformacionProducto(i);
                 }
-            } else {
+            } else if(opcionBodega == 4){
                 presentar+=(i+1)+". "+p1.getInformacionProducto(i);
             }
         }

@@ -1,13 +1,18 @@
 package semillas;
 
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import productos.Alimento;
 import productos.Producto;
+import terrenos.Grama;
 
 public abstract class Planta extends Thread{
 
     protected String nombre;
+    protected Grama terreno;
+    protected JLabel imagenEtiqueta;
     protected int vida;
     protected double precio;
     protected int cantidadAdquirida;
@@ -39,12 +44,19 @@ public abstract class Planta extends Thread{
 
     public int getCeldas(){return this.celdasSembradas;}
 
+    public Producto getProducto(){return this.producto;}
+
     public void asignarAlimento(Alimento alimento){
         this.alimento = alimento;
     }
 
     @Override
     public abstract void run();
+
+    
+    public abstract void colocarImagen(ImageIcon imagen);
+
+    public abstract void elegirTerreno(Grama terreno, JLabel etiqueta);
 
     public void agregarProducto(Producto productoNuevo){
 

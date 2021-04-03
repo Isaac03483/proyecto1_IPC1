@@ -167,11 +167,11 @@ public class Mercado {
             +"\n"+presentarSemillas(opcionSemilla)
             +"Ingrese el dígito de la semilla que desea comprar:","SurvivalVille", JOptionPane.INFORMATION_MESSAGE));
             if(opcionSemilla==1){
-                p1.agregarPlanta(new Grano(granos[opcionCompra-1].getNombre(), granos[opcionCompra-1].getVida(), granos[opcionCompra-1].getPrecio()));
+                p1.agregarPlanta(granos[opcionCompra-1]);
                 p1.disminuirOro(granos[opcionCompra-1].getPrecio());
                 granos[opcionCompra-1].setCantidadAdquirida();
             } else {
-                p1.agregarPlanta(new Fruto(frutos[opcionCompra-1].getNombre(), frutos[opcionCompra-1].getVida(), frutos[opcionCompra-1].getPrecio()));
+                p1.agregarPlanta(frutos[opcionCompra-1]);
                 p1.disminuirOro(frutos[opcionCompra-1].getPrecio());
                 frutos[opcionCompra-1].setCantidadAdquirida();
             }

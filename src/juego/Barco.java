@@ -4,8 +4,7 @@ import javax.swing.*;
 
 import enums.*;
 import terrenos.*;
-import productos.*;
-import static ventanas.Inicio.*;
+import productos.*; 
 
 import java.awt.Image;
 
@@ -26,7 +25,8 @@ public class Barco extends Thread{
 
     public void elegirLago(Lago lago, JLabel imagenEtiqueta){
         this.lago = lago;
-        colocarImagen(imagenEtiqueta);
+        this.imagenEtiqueta = imagenEtiqueta;
+        colocarImagen(imagenBarco);
     }
 
     public void cambiarEstado(EstadoBarco estado){this.estado=estado;}
@@ -41,6 +41,7 @@ public class Barco extends Thread{
     public void run(){
         this.cambiarEstado(EstadoBarco.PESCANDO);
         this.lago.cambiarEstado(EstadoLago.CONBARCO);
+        this.imagenEtiqueta.setVisible(true);
         this.pecesObtenidos=0;
         do{
 
@@ -56,14 +57,13 @@ public class Barco extends Thread{
 
         peces = new Alimento("Pescado", 15, this.pecesObtenidos, 10, TipoProducto.SINDESTAZAR);
         this.lago.cambiarEstado(EstadoLago.CONBARCOSINPECES);
-        this.imagenEtiqueta.setIcon(new ImageIcon(this.imagenListo.getImage().getScaledInstance(imagenEtiqueta.getWidth(), imagenEtiqueta.getHeight(), Image.SCALE_SMOOTH)));
+        colocarImagen(imagenListo);
     }
 
 
-    public void colocarImagen(JLabel imagenEtiqueta){
-        imagenEtiqueta.setIcon(new ImageIcon(this.imagenBarco.getImage().getScaledInstance(imagenEtiqueta.getWidth(), imagenEtiqueta.getHeight(), Image.SCALE_SMOOTH)));
-        this.imagenEtiqueta=imagenEtiqueta;
-        this.imagenEtiqueta.setVisible(true);
+    public void colocarImagen(ImageIcon imagen){
+        this.imagenEtiqueta.setIcon(new ImageIcon(imagen.getImage().getScaledInstance(this.imagenEtiqueta.getWidth(), this.imagenEtiqueta.getHeight(), Image.SCALE_SMOOTH)));
+        
     }
     
 }

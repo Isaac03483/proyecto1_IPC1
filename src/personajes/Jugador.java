@@ -6,7 +6,7 @@ import enums.EstadoBarco;
 import productos.Alimento;
 import productos.Producto;
 import semillas.*;
-import terrenos.Lago;
+import terrenos.*;
 import juego.Barco;
 import static ventanas.Juego.*;
 import static ventanas.Menu.*;
@@ -172,18 +172,18 @@ public class Jugador extends Thread{
         
         int indice=0;
         boolean encontrado=false;
-        for(int i = 0; i < productos.length; i++){
-            if(nuevoProducto.getNombre() == productos[i].getNombre()){
+        for(int i = 0; i < this.productos.length; i++){
+            if(productos[i].getNombre() == nuevoProducto.getNombre()){
                 encontrado = true;
                 indice = i;
                 break;
             }
-        }
+        } 
 
         if(encontrado == true){
-            productos[indice].aumentarCantidad(nuevoProducto.getCantidad());
-        } else {
-            productos = redimensionarProductos(productos, nuevoProducto);
+            this.productos[indice].aumentarCantidad(nuevoProducto.getCantidad());
+        } else if (encontrado == false){
+            this.productos = redimensionarProductos(productos, nuevoProducto);
         }
 
         if(nuevoProducto instanceof Alimento){
@@ -208,7 +208,7 @@ public class Jugador extends Thread{
         verificarBarco(lago, imagenBarco);
     }
 
-    public void verificarBarco(Lago lago, JLabel imagenBarco){
+    public void verificarBarco(Lago lago, JLabel imagenEtiqueta){
         int indice = -2;
         for(int i = 0; i  < barco.length; i++){
             if(barco[i].getEstado() == EstadoBarco.DISPONIBLE){
@@ -227,7 +227,7 @@ public class Jugador extends Thread{
         } else {
             
             JOptionPane.showMessageDialog(null, "Barco pesquero colocado con éxito.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
-            barco[indice].elegirLago(lago, imagenBarco);
+            barco[indice].elegirLago(lago, imagenEtiqueta);
             lago.setIndiceBarco(indice);
             Thread pescar = new Thread(barco[indice]);
             pescar.start();
@@ -248,6 +248,36 @@ public class Jugador extends Thread{
 
             productos=nArreglo;
         }
+    }
+
+    public void colocarSemilla(Grama terreno, JLabel objetos, int opcionSemilla){
+
+        try {
+            
+            terreno.setPlanta(semillas[opcionSemilla-1]);
+            semillas[opcionSemilla-1].elegirTerreno(terreno, objetos);
+            Thread sembrar = new Thread(semillas[opcionSemilla-1]);
+            sembrar.start();
+            eliminarSemilla(opcionSemilla-1);
+        } catch(ArrayIndexOutOfBoundsException e){
+
+            JOptionPane.showMessageDialog(null, "Esta opción no se encuentra en el arreglo.", "SurvivalVille", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void eliminarSemilla(int indice){
+
+        Planta[] nArreglo = new Planta[semillas.length -1];
+
+        for(int i = indice; i < semillas.length-1; i ++){
+            semillas[i] = semillas[i+1];
+        }
+
+        for(int i = 0; i < nArreglo.length; i++){
+            nArreglo[i] = semillas[i];
+        }
+
+        semillas = nArreglo;
     }
         
     
