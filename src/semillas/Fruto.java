@@ -22,8 +22,8 @@ public class Fruto extends Planta{
 
     @Override
     public void run(){
-        
-        int tiempoVida = this.getVida()/this.producto.getCantidad();
+        int  tiempoVida=this.vida;
+        int duracionVida = this.getVida()/this.producto.getCantidad();
         this.cantidadProducto=0;
         this.imagenEtiqueta.setVisible(true);
         colocarImagen(imagenFruto);
@@ -31,28 +31,28 @@ public class Fruto extends Planta{
 
         do{
             
-            this.terreno.setToolTipText("Cantidad de: "+this.producto.getNombre()+" adquiridas: "+this.cantidadProducto);
+            this.terreno.setToolTipText("Tiempo de vida restante: "+tiempoVida);
             try{
 
-                Fruto.sleep(tiempoVida*1000);
+                Fruto.sleep(duracionVida*1000);
             } catch(InterruptedException e){
                 JOptionPane.showMessageDialog(null, "Error en clase Fruto.", "SurvivalVille", JOptionPane.ERROR_MESSAGE);
             }
 
             
             if(this.terreno.getEstado() == EstadoGrama.CONSIEMBRA){
-                this.vida-=tiempoVida;
+                tiempoVida-=duracionVida;
                 this.cantidadProducto++;
                 
                 colocarImagen(imagenListo);
                 this.terreno.cambiarEstado(EstadoGrama.FRUTOLISTO);
             } else {
-                this.vida-=tiempoVida;
+                tiempoVida-=duracionVida;
                 this.cantidadProducto++;
             }
             
             
-        } while(this.vida > 0);
+        } while(tiempoVida > 0);
 
         this.imagenEtiqueta.setVisible(false);
         this.terreno.cambiarEstado(EstadoGrama.DISPONIBLE);

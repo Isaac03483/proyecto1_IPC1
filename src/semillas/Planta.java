@@ -66,19 +66,20 @@ public abstract class Planta extends Thread{
 
     public void agregarProducto(Producto productoNuevo){
 
-        boolean productoCreado = false;
         
-        if(this.producto != null){
-            productoCreado=true;
-        }
+        this.producto = productoNuevo;
+        
 
-        if(productoCreado==true){
-            JOptionPane.showMessageDialog(null, "Esta planta ya tiene asignado un producto.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
+        
+    }
+
+    public boolean productoAsignado(){
+
+        if(this.producto!= null){
+            return true;
         } else {
-            this.producto = productoNuevo;
+            return false;
         }
-
-        
     }
     
 }

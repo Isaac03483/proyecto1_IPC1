@@ -15,6 +15,7 @@ import static ventanas.Inicio.*;
 
 public class Jugador extends Thread{
 
+    private Thread sembrar;
     private String nombre;
     private String nickName;
     private double oro;
@@ -96,7 +97,7 @@ public class Jugador extends Thread{
 
     public void vender(int opcionProducto, int opcionCantidad){
         this.oro+= productos[opcionProducto-1].getPrecio()*opcionCantidad;
-        this.oroGenerado+=oro;
+        this.oroGenerado+=productos[opcionProducto-1].getPrecio()*opcionCantidad;
         productos[opcionProducto-1].restarCantidad(opcionCantidad);
         etiquetaOro.setText(Double.toString(this.oro));
         JOptionPane.showMessageDialog(null, "Venta realizada con éxito.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
@@ -187,7 +188,7 @@ public class Jugador extends Thread{
         }
 
         if(nuevoProducto instanceof Alimento){
-            this.alimentoGenerado+= nuevoProducto.getCantidad();
+            this.alimentoGenerado+=nuevoProducto.getCantidad();
         }
     }
 
@@ -256,7 +257,7 @@ public class Jugador extends Thread{
             
             terreno.setPlanta(semillas[opcionSemilla-1]);
             semillas[opcionSemilla-1].elegirTerreno(terreno, objetos);
-            Thread sembrar = new Thread(semillas[opcionSemilla-1]);
+            sembrar = new Thread(semillas[opcionSemilla-1]);
             sembrar.start();
             eliminarSemilla(opcionSemilla-1);
         } catch(ArrayIndexOutOfBoundsException e){

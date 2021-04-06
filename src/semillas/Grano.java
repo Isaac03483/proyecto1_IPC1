@@ -24,6 +24,7 @@ public class Grano extends Planta{
 
     @Override
     public void run(){
+        int tiempoVida = this.vida;
         this.terreno.cambiarEstado(EstadoGrama.CONSIEMBRA);
         this.imagenEtiqueta.setVisible(true);
         colocarImagen(imagenGrano);
@@ -33,12 +34,12 @@ public class Grano extends Planta{
             } catch(InterruptedException e){
                 JOptionPane.showMessageDialog(null, "Error en clase Grano.", "SurvivalVille", JOptionPane.ERROR_MESSAGE);
             }
-            this.vida--;
-            this.terreno.setToolTipText("Cosechando: "+this.nombre+" tiempo restante: "+this.vida);
-        } while(this.vida > 0);
+            tiempoVida--;
+            this.terreno.setToolTipText("Cosechando: "+this.nombre+" tiempo restante: "+tiempoVida);
+        } while(tiempoVida > 0);
 
         
-        if(this.vida == 0){
+        if(tiempoVida == 0){
             this.terreno.cambiarEstado(EstadoGrama.SIEMBRALISTA);
             colocarImagen(imagenListo);
         

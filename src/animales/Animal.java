@@ -70,7 +70,6 @@ public abstract class Animal extends Thread{
 
         if(productoRepetido == true){
             this.productos[indice] = productoNuevo;
-            JOptionPane.showMessageDialog(null, "Producto actualizado con éxito.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
         }  else {
             this.productos = redimensionarProductos(this.productos, productoNuevo);
         }

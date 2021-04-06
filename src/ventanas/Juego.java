@@ -380,14 +380,14 @@ public class Juego extends JFrame{
         } else if (((Grama)terreno[i][j]).getEstado() == EstadoGrama.SIEMBRALISTA){
 
             objetos[i][j].setVisible(false);
-            p1.agregarProducto(((Grama)terreno[i][j]).getPlanta().getProducto());
+            p1.agregarProducto(new Alimento(((Grama)terreno[i][j]).getPlanta().getProducto().getNombre(), ((Grama)terreno[i][j]).getPlanta().getProducto().getPrecio(),((Grama)terreno[i][j]).getPlanta().getProducto().getCantidad(), ((Alimento)((Grama)terreno[i][j]).getPlanta().getProducto()).getVida(), TipoProducto.SIEMBRA));
             Juego.actualizarCeldasSembradas(((Grama)terreno[i][j]).getPlanta());
             JOptionPane.showMessageDialog(null, "Se ha recogido la siembra con éxito.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
             ((Grama)terreno[i][j]).cambiarEstado(EstadoGrama.DISPONIBLE);
 
         } else if(((Grama)terreno[i][j]).getEstado() == EstadoGrama.FRUTOLISTO){
 
-            p1.agregarProducto(new Alimento(((Grama)terreno[i][j]).getPlanta().getNombre(), ((Grama)terreno[i][j]).getPlanta().getPrecio(), ((Fruto)((Grama)terreno[i][j]).getPlanta()).getCantidadProducto(), ((Grama)terreno[i][j]).getPlanta().getVida(), TipoProducto.SINDESTAZAR));
+            p1.agregarProducto(new Alimento(((Grama)terreno[i][j]).getPlanta().getProducto().getNombre(), ((Grama)terreno[i][j]).getPlanta().getProducto().getPrecio(), ((Fruto)((Grama)terreno[i][j]).getPlanta()).getCantidadProducto(), ((Alimento)((Grama)terreno[i][j]).getPlanta().getProducto()).getVida(), TipoProducto.SIEMBRA));
             JOptionPane.showMessageDialog(null, "Se ha recogido una parte de los productos.", "SuvivalVille", JOptionPane.INFORMATION_MESSAGE);
             terreno[i][j].setToolTipText("");
             ((Grama)terreno[i][j]).cambiarEstado(EstadoGrama.CONSIEMBRA);
@@ -592,6 +592,7 @@ public class Juego extends JFrame{
             }
 
             granos[indice].setCeldasSembradas();
+            
         } else if (semilla instanceof Fruto){
             for(int i = 0; i < frutos.length; i++){
                 if(semilla.getNombre() == frutos[i].getNombre()){

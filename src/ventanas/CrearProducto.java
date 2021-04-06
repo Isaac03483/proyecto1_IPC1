@@ -421,10 +421,14 @@ public class CrearProducto extends JFrame{
     }
 
     private void verificarTipoProducto(){
-        if(radioAlDestazar.isSelected()){
-            tipoProducto = TipoProducto.ALDESTAZAR;
-        } else {
-            tipoProducto = TipoProducto.SINDESTAZAR;
+        if(radioAnimal.isSelected()){
+            if(radioAlDestazar.isSelected()){
+                tipoProducto = TipoProducto.ALDESTAZAR;
+            } else {
+                tipoProducto = TipoProducto.SINDESTAZAR;
+            }
+        } else if(radioSemilla.isSelected()){
+            tipoProducto = TipoProducto.SIEMBRA;
         }
     }
 
@@ -451,6 +455,7 @@ public class CrearProducto extends JFrame{
 
         asignarProducto();
         agregarProductos();
+        
         
     }
 
@@ -491,6 +496,7 @@ public class CrearProducto extends JFrame{
                 animalesOmnivoros[indice].agregarProducto(productosJuego[indiceProducto]);
             
             }
+            JOptionPane.showMessageDialog(null, "Producto agregado con éxito.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
         } else {
             Planta semillaSeleccionada = (Planta)comboAgregar.getSelectedItem();
             if(semillaSeleccionada instanceof Grano){
@@ -501,7 +507,11 @@ public class CrearProducto extends JFrame{
                     }
                 }
 
-                granos[indice].agregarProducto(productosJuego[indiceProducto]);
+                if(granos[indice].productoAsignado()){
+                    JOptionPane.showMessageDialog(null, "Esta semilla ya cuenta con un producto.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    granos[indice].agregarProducto(productosJuego[indiceProducto]);
+                }
 
             } else if (semillaSeleccionada instanceof Fruto){
                 for(int i = 0; i < frutos.length; i++){
@@ -511,7 +521,11 @@ public class CrearProducto extends JFrame{
                     }
                 }
 
-                frutos[indice].agregarProducto(productosJuego[indiceProducto]);
+                if(frutos[indice].productoAsignado()){
+                    JOptionPane.showMessageDialog(null, "Esta semilla ya cuenta con un producto.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    frutos[indice].agregarProducto(productosJuego[indiceProducto]);
+                }
             }
         
         }

@@ -136,7 +136,7 @@ public class Mercado {
                 opcionSemilla = Integer.parseInt(JOptionPane.showInputDialog(null, "¿Qué desea hacer?"
                 +"\n1. Comprar semillas de granos."
                 +"\n2. Comprar semillas de frutos."
-                +"\n3. Comprar alimento de animales Herbívoros."
+                +"\n3. Comprar fertilizante."
                 +"\n4. Volver.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE));
 
                 switch(opcionSemilla){
@@ -167,12 +167,16 @@ public class Mercado {
             +"\n"+presentarSemillas(opcionSemilla)
             +"Ingrese el dígito de la semilla que desea comprar:","SurvivalVille", JOptionPane.INFORMATION_MESSAGE));
             if(opcionSemilla==1){
-                p1.agregarPlanta(granos[opcionCompra-1]);
-                p1.disminuirOro(granos[opcionCompra-1].getPrecio());
+                Grano granoCompra = new Grano(granos[opcionCompra-1].getNombre(), granos[opcionCompra-1].getVida(), granos[opcionCompra-1].getPrecio());
+                granoCompra.agregarProducto(granos[opcionCompra-1].getProducto());
+                p1.agregarPlanta(granoCompra);
+                p1.disminuirOro(granoCompra.getPrecio());
                 granos[opcionCompra-1].setCantidadAdquirida();
             } else {
-                p1.agregarPlanta(frutos[opcionCompra-1]);
-                p1.disminuirOro(frutos[opcionCompra-1].getPrecio());
+                Fruto frutoCompra = new Fruto(frutos[opcionCompra-1].getNombre(), frutos[opcionCompra-1].getVida(), frutos[opcionCompra-1].getPrecio());
+                frutoCompra.agregarProducto(frutos[opcionCompra-1].getProducto());
+                p1.agregarPlanta(frutoCompra);
+                p1.disminuirOro(frutoCompra.getPrecio());
                 frutos[opcionCompra-1].setCantidadAdquirida();
             }
             JOptionPane.showMessageDialog(null, "Bolsa de semillas comprada con éxito.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
