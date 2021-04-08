@@ -1,6 +1,8 @@
 package ventanas;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
@@ -11,16 +13,16 @@ import static ventanas.Menu.*;
 public class CrearSemilla extends JFrame{
 
     public static JPanel panel;
-    public static JLabel etiquetaTitulo, etiquetaNombre, etiquetaVida, etiquetaPrecio, etiquetaCantidad;
-    public static JTextField textoNombre, textoVida, textoPrecio, textoCantidad;
-    public static JTable tabla;
-    public static JScrollPane scroll;
-    public static DefaultTableModel modelo;
+    public static JLabel etiquetaTitulo, etiquetaNombre, etiquetaVida, etiquetaPrecio, etiquetaProductos;
+    public static JTextField textoNombre, textoVida, textoPrecio;
+    public static JTable tablaSemilla, tablaProducto;
+    public static JScrollPane scrollSemilla, scrollProducto;
+    public static DefaultTableModel modeloSemilla, modeloProducto;
     public static JRadioButton radioGrano, radioFruto;
-    public static JButton botonVolver, botonCrear;
+    public static JButton botonVolver, botonCrear, botonAgregar;
     public static Boolean permitido;
     public static String nombre;
-    public static int vida, cantidad;
+    public static int vida;
     public static double precio;
 
     public CrearSemilla(){
@@ -72,11 +74,13 @@ public class CrearSemilla extends JFrame{
         etiquetaPrecio.setBounds(20,160,160,20);
         panel.add(etiquetaPrecio);
         etiquetaPrecio.setFont(new Font("Basic",Font.BOLD, 14));
-        //agregamos etiqueta para la cantidad de semillas necesaria para sembrar
-        etiquetaCantidad = new JLabel("Cantidad para siembra:");
-        etiquetaCantidad.setBounds(20,200,190,20);
-        panel.add(etiquetaCantidad);
-        etiquetaCantidad.setFont(new Font("Basic", Font.BOLD,14));
+
+        //agregamos etiqueta para ver el producto que produce la semilla
+        etiquetaProductos = new JLabel("Producto de la semilla:");
+        etiquetaProductos.setBounds(375, 205, 220, 20);
+        panel.add(etiquetaProductos);
+        etiquetaProductos.setFont(new Font("Basic", Font.BOLD, 14));
+
     }
 
     private void colocarTexto(){
@@ -92,10 +96,6 @@ public class CrearSemilla extends JFrame{
         textoPrecio = new JTextField();
         textoPrecio.setBounds(180,160,100,20);
         panel.add(textoPrecio);
-
-        textoCantidad  = new JTextField();
-        textoCantidad.setBounds(210,200,70,20);
-        panel.add(textoCantidad);
 
     }
 
@@ -141,14 +141,21 @@ public class CrearSemilla extends JFrame{
     private void colocarBotones(){
         //agregamos botones para volver y para crear la nueva Semilla
         botonVolver = new JButton("Volver");
-        botonVolver.setBounds(110,235,100,40);
+        botonVolver.setBounds(20,195,100,40);
         panel.add(botonVolver);
         oyenteVolver();
 
         botonCrear = new JButton("Crear");
-        botonCrear.setBounds(220,235,100,40);
+        botonCrear.setBounds(130,195,100,40);
         panel.add(botonCrear);
         oyenteCrear();
+
+        //agregamos un boton para agregar productos al animal
+        botonAgregar = new JButton("Agregar Producto");
+        botonAgregar.setBounds(20,245, 150,40);
+        panel.add(botonAgregar);
+        botonAgregar.setFont(new Font("Basic", Font.BOLD, 10));
+        oyenteAgregar();
     }
 
     private void oyenteVolver(){
@@ -187,6 +194,22 @@ public class CrearSemilla extends JFrame{
         botonCrear.addActionListener(oyenteAccion);
     }
 
+    private void oyenteAgregar(){
+        
+        ActionListener oyenteAccion = new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent ae){
+
+                CrearProducto c3 = new CrearProducto();
+                c3.setVisible(true);
+                dispose();
+            }
+        };
+
+        botonAgregar.addActionListener(oyenteAccion);
+    }
+
     public void crearSemilla(){
         if(radioFruto.isSelected()){
             frutos = redimensionarPlantas(frutos, new Fruto(nombre, vida,precio));
@@ -215,44 +238,108 @@ public class CrearSemilla extends JFrame{
         try{
             vida = Integer.parseInt(textoVida.getText());
             precio = Double.parseDouble(textoPrecio.getText());
-            cantidad = Integer.parseInt(textoCantidad.getText());
         }catch(NumberFormatException e){
-            JOptionPane.showMessageDialog(null, "Campos vida, precio y cantidad requieren valores tipo numérico.", "SurvivalVille", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Campos vida y precio requieren valores tipo numérico.", "SurvivalVille", JOptionPane.ERROR_MESSAGE);
             permitido=false;
         }
     }
 
     private void colocarTabla(){
 
-        modelo = new DefaultTableModel();
-        modelo.addColumn("Nombre");
-        modelo.addColumn("Vida");
-        modelo.addColumn("Precio");
-        modelo.addColumn("Cantidad");
+        modeloSemilla = new DefaultTableModel();
+        modeloSemilla.addColumn("Nombre");
+        modeloSemilla.addColumn("Vida");
+        modeloSemilla.addColumn("Precio");
 
         agregarFilas(granos);
-        tabla = new JTable(modelo);
-        tabla.setBounds(375,40,250,220);
-        panel.add(tabla);
+        tablaSemilla = new JTable(modeloSemilla);
+        tablaSemilla.setBounds(375,40,250,150);
+        panel.add(tablaSemilla);
 
-        scroll = new JScrollPane(tabla, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scroll.setBounds(375,40,250,220);
-        panel.add(scroll);
+        scrollSemilla = new JScrollPane(tablaSemilla, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollSemilla.setBounds(375,40,250,150);
+        panel.add(scrollSemilla);
+
+        modeloProducto = new DefaultTableModel();
+        modeloProducto.addColumn("Nombre");
+        modeloProducto.addColumn("Precio");
+        modeloProducto.addColumn("Cantidad");
+        modeloProducto.addColumn("Tipo");
+
+        tablaProducto = new JTable(modeloProducto);
+        tablaProducto.setBounds(375, 225, 250, 50);
+        panel.add(tablaProducto);
+
+        scrollProducto = new JScrollPane(tablaProducto, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollProducto.setBounds(375,225,250,50);
+        panel.add(scrollProducto);
+
+        oyenteProductos();
+
     }
 
     private void agregarFilas(Planta[] plantas){
         
-        modelo.setRowCount(0);
+        modeloSemilla.setRowCount(0);
         for(int i = 0; i < plantas.length; i++){
-            String[] fila = {plantas[i].getNombre(), Integer.toString(plantas[i].getVida()), String.valueOf(plantas[i].getPrecio()), Integer.toString(plantas[i].getCantidad())};
-            modelo.addRow(fila);
+            String[] fila = {plantas[i].getNombre(), Integer.toString(plantas[i].getVida()), String.valueOf(plantas[i].getPrecio())};
+            modeloSemilla.addRow(fila);
         }
+    }
+
+    private void oyenteProductos(){
+
+        ListSelectionListener oyenteSeleccion = new ListSelectionListener(){
+
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if(e.getValueIsAdjusting()){
+
+                    modeloProducto.setRowCount(0);
+                    int indice=0;
+
+                    String nombre = (String)modeloSemilla.getValueAt(tablaSemilla.getSelectedRow(), 0);
+
+                    if(radioGrano.isSelected()){
+
+                        for(int i =0; i < animalesHerbivoros.length; i++){
+                            if(nombre.equals(granos[i].getNombre())){
+                                indice = i;
+                                break;
+                            }
+                        }
+
+                        String[] fila = {granos[indice].getProducto().getNombre(), Double.toString(granos[indice].getProducto().getPrecio()), Integer.toString(granos[indice].getProducto().getCantidad()), granos[indice].getProducto().getTipoProducto().name()};
+                        modeloProducto.addRow(fila);
+                        
+                    } else {
+
+                        for(int i =0; i < frutos.length; i++){
+                            if(nombre.equals(frutos[i].getNombre())){
+                                indice = i;
+                                break;
+                            }
+                        }
+                        
+                        String[] fila = {frutos[indice].getProducto().getNombre(), Double.toString(frutos[indice].getProducto().getPrecio()), Integer.toString(frutos[indice].getProducto().getCantidad()), frutos[indice].getProducto().getTipoProducto().name()};
+                        modeloProducto.addRow(fila);
+                        
+                    }
+
+                }
+                
+            }
+
+            
+            
+        };
+
+        tablaSemilla.getSelectionModel().addListSelectionListener(oyenteSeleccion);
     }
     
     private void limpiarTexto(){
         textoNombre.setText("");
         textoVida.setText("");
         textoPrecio.setText("");
-        textoCantidad.setText("");
     }
 }

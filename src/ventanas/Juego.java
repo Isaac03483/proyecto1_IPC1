@@ -826,6 +826,7 @@ public class Juego extends JFrame{
                         p1.disminuirOro(precioArreglar);
                         ((Parcela)terreno[i][j]).cambiarEstado(EstadoParcela.DISPONIBLE);
                         JOptionPane.showMessageDialog(null, "Parcela limpiada con éxito.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
+                        objetos[i][j].setVisible(false);
                         break;
                         case 2:
                         break;

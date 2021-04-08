@@ -1,6 +1,8 @@
 package ventanas;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import enums.TipoProducto;
 import java.awt.*;
@@ -11,7 +13,7 @@ import static ventanas.Menu.*;
 public class CrearAnimal extends JFrame{
 
     public static JPanel panel;
-    public static JButton botonVolver, botonCrear;
+    public static JButton botonVolver, botonCrear, botonAgregar;
     public static JLabel etiquetaTitulo,etiquetaNombre, etiquetaProductos, etiquetaVida, etiquetaPrecio, etiquetaProduccion;
     public static JTextField textoNombre, textoVida, textoPrecio;
     public static JRadioButton radioCon, radioSin, radioAmbos, radioH, radioO;
@@ -20,9 +22,9 @@ public class CrearAnimal extends JFrame{
     public static TipoProducto tipo = TipoProducto.AMBOS;
     public static double precio;
     public static boolean permitido;
-    public static JTable tabla;
-    public static JScrollPane scroll;
-    public static DefaultTableModel modelo;
+    public static JTable tablaAnimal, tablaProducto;
+    public static JScrollPane scrollAnimal, scrollProducto;
+    public static DefaultTableModel modeloAnimal, modeloProducto;
     
     public CrearAnimal(){
         this.setTitle("SurvivalVille");
@@ -52,29 +54,93 @@ public class CrearAnimal extends JFrame{
     }
 
     private void colocarTabla(){
-        modelo = new DefaultTableModel();
-        modelo.addColumn("Nombre");
-        modelo.addColumn("Vida");
-        modelo.addColumn("Precio");
-        modelo.addColumn("Tipo");
-        agregarFilas(animalesHerbivoros);
-        tabla = new JTable(modelo); 
-        tabla.setBounds(475,40,250,220);
-        panel.add(tabla);
-        
-        scroll = new JScrollPane(tabla, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scroll.setBounds(475,40,250,220);
-        panel.add(scroll);
 
+        //agregamos modelo para la tabla donde se mostrarán los animales
+        modeloAnimal = new DefaultTableModel();
+        modeloAnimal.addColumn("Nombre");
+        modeloAnimal.addColumn("Vida");
+        modeloAnimal.addColumn("Precio");
+        modeloAnimal.addColumn("Tipo");
+        agregarFilasAnimal(animalesHerbivoros);
+        tablaAnimal = new JTable(modeloAnimal); 
+        tablaAnimal.setBounds(475,20,250,100);
+        panel.add(tablaAnimal);
+        
+        scrollAnimal = new JScrollPane(tablaAnimal, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollAnimal.setBounds(475,20,250,100);
+        panel.add(scrollAnimal);
+
+        //agregamos modelo para la tabla donde se mostrarán los productos del animal seleccionado
+        modeloProducto = new DefaultTableModel();
+        modeloProducto.addColumn("Nombre");
+        modeloProducto.addColumn("Precio");
+        modeloProducto.addColumn("Cantidad");
+        modeloProducto.addColumn("Tipo");
+
+        tablaProducto = new JTable(modeloProducto);
+        tablaProducto.setBounds(475, 165, 250, 100);
+
+        scrollProducto = new JScrollPane(tablaProducto, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollProducto.setBounds(475,165,250,100);
+        panel.add(scrollProducto);
+
+        oyenteProductos();
     }
 
-    private void agregarFilas(Animal[] animales){
+    private void agregarFilasAnimal(Animal[] animales){
         
-        modelo.setRowCount(0);
+        modeloAnimal.setRowCount(0);
         for(int i = 0; i < animales.length; i++){
-            String[] fila = {animales[i].getNombre(), Integer.toString(animales[i].getVida()), String.valueOf(animales[i].getPrecio()), animales[i].getTipo().name()};
-            modelo.addRow(fila);
+            String[] fila = {animales[i].getNombre(), Integer.toString(animales[i].getVida()), Double.toString(animales[i].getPrecio()), animales[i].getTipo().name()};
+            modeloAnimal.addRow(fila);
         }
+    }
+
+    private void oyenteProductos(){
+        ListSelectionListener oyenteSeleccion = new ListSelectionListener(){
+
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                
+                if(e.getValueIsAdjusting()){
+                    modeloProducto.setRowCount(0);
+                    int indice=0;
+                    String nombre = (String)modeloAnimal.getValueAt(tablaAnimal.getSelectedRow(), 0);
+
+                    if(radioH.isSelected()){
+
+                        for(int i =0; i < animalesHerbivoros.length; i++){
+                            if(nombre.equals(animalesHerbivoros[i].getNombre())){
+                                indice = i;
+                                break;
+                            }
+                        }
+
+                        for(int i = 0; i< animalesHerbivoros[indice].getArregloProductos().length; i++){
+                            String[] fila = {animalesHerbivoros[indice].getArregloProductos()[i].getNombre(), Double.toString(animalesHerbivoros[indice].getArregloProductos()[i].getPrecio()), Integer.toString(animalesHerbivoros[indice].getArregloProductos()[i].getCantidad()), animalesHerbivoros[indice].getArregloProductos()[i].getTipoProducto().name()};
+                            modeloProducto.addRow(fila);
+                        }
+                    } else {
+
+                        for(int i =0; i < animalesOmnivoros.length; i++){
+                            if(nombre.equals(animalesOmnivoros[i].getNombre())){
+                                indice = i;
+                                break;
+                            }
+                        }
+                        for(int i = 0; i< animalesOmnivoros[indice].getArregloProductos().length; i++){
+                            String[] fila = {animalesOmnivoros[indice].getArregloProductos()[i].getNombre(), Double.toString(animalesOmnivoros[indice].getArregloProductos()[i].getPrecio()), Integer.toString(animalesOmnivoros[indice].getArregloProductos()[i].getCantidad()), animalesOmnivoros[indice].getArregloProductos()[i].getTipoProducto().name()};
+                            modeloProducto.addRow(fila);
+                        }
+                    }
+
+                }
+                
+            }
+            
+        };
+
+        tablaAnimal.getSelectionModel().addListSelectionListener(oyenteSeleccion);
     }
 
     private void colocarRadioBotones(){
@@ -151,9 +217,9 @@ public class CrearAnimal extends JFrame{
           @Override
           public void actionPerformed(ActionEvent ae){
               if(radioH.isSelected()){
-                agregarFilas(animalesHerbivoros);
+                agregarFilasAnimal(animalesHerbivoros);
               } else {
-                  agregarFilas(animalesOmnivoros);
+                  agregarFilasAnimal(animalesOmnivoros);
 
               }
           }  
@@ -205,23 +271,35 @@ public class CrearAnimal extends JFrame{
         etiquetaProductos.setBounds(20,185, 100,20);
         panel.add(etiquetaProductos);
         etiquetaProductos.setFont(new Font("Basic", Font.BOLD, 14));
+
+        etiquetaProduccion = new JLabel("Productos del animal:");
+        etiquetaProduccion.setBounds(475, 140, 200, 20);
+        panel.add(etiquetaProduccion);
+        etiquetaProduccion.setFont(new Font("Basic", Font.BOLD, 14));
     }
 
     private void colocarBoton(){
 
         //agregamos un boton para volver al menú principal
         botonVolver = new JButton("Volver");
-        botonVolver.setBounds(110,225,100,40);
+        botonVolver.setBounds(70,225,100,40);
         panel.add(botonVolver);
         botonVolver.setFont(new Font("Basic", Font.BOLD, 13));
         oyenteVolver();
 
         //agregamos un boton para crear al animal
         botonCrear = new JButton("Crear");
-        botonCrear.setBounds(220, 225,100,40);
+        botonCrear.setBounds(180, 225,100,40);
         panel.add(botonCrear);
         botonCrear.setFont(new Font("Basic", Font.BOLD, 13));
         oyenteCrear();
+
+        //agregamos un boton para agregar productos al animal
+        botonAgregar = new JButton("Agregar Producto");
+        botonAgregar.setBounds(290,225, 150,40);
+        panel.add(botonAgregar);
+        botonAgregar.setFont(new Font("Basic", Font.BOLD, 10));
+        oyenteAgregar();
     }
 
     private void oyenteVolver(){
@@ -259,6 +337,22 @@ public class CrearAnimal extends JFrame{
         botonCrear.addActionListener(oyenteAccion);
     }
 
+    private void oyenteAgregar(){
+        
+        ActionListener oyenteAccion = new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent ae){
+
+                CrearProducto c3 = new CrearProducto();
+                c3.setVisible(true);
+                dispose();
+            }
+        };
+
+        botonAgregar.addActionListener(oyenteAccion);
+    }
+
     private void limpiarTexto(){
         textoNombre.setText("");
         textoVida.setText("");
@@ -268,10 +362,10 @@ public class CrearAnimal extends JFrame{
     private void crearAnimal(){
         if(radioH.isSelected()){
             animalesHerbivoros = redimensionarAnimales(animalesHerbivoros, new Herbivoro(nombre, vida,precio, tipo));
-            agregarFilas(animalesHerbivoros);
+            agregarFilasAnimal(animalesHerbivoros);
         } else {
             animalesOmnivoros = redimensionarAnimales(animalesOmnivoros, new Omnivoro(nombre, vida,precio, tipo));
-            agregarFilas(animalesOmnivoros);
+            agregarFilasAnimal(animalesOmnivoros);
         }
     }
 

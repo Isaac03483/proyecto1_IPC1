@@ -86,6 +86,7 @@ public class Jugador extends Thread{
     }
 
     public void comer(int opcionAlimento, int opcionCantidad){
+        
         this.vida += ((Alimento)productos[opcionAlimento-1]).getVida()*opcionCantidad;
         ((Alimento)productos[opcionAlimento-1]).restarCantidad(opcionCantidad);
         etiquetaVida.setText(Integer.toString(this.vida));

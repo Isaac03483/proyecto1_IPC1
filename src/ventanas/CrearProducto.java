@@ -455,7 +455,7 @@ public class CrearProducto extends JFrame{
             JOptionPane.showMessageDialog(null, "Ya existe un producto con ese nombre.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
         } else {
             crearProducto();
-            JOptionPane.showMessageDialog(null, "Producto creado con éxito. error", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Producto creado con éxito.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
         }
         
 
