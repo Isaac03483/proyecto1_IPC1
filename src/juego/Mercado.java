@@ -3,6 +3,8 @@ package juego;
 import javax.swing.*;
 
 import animales.*;
+import enums.TipoProducto;
+import productos.*;
 import semillas.*;
 
 import static ventanas.Menu.*;
@@ -92,18 +94,24 @@ public class Mercado {
             +"\n"+presentarAnimales(opcionAnimal)
             +"Ingrese el dígito del animal que desea comprar:","SurvivalVille", JOptionPane.INFORMATION_MESSAGE));
             if(opcionAnimal==1){
-                p1.agregarAnimal(new Herbivoro(animalesHerbivoros[opcionCompra-1].getNombre(), animalesHerbivoros[opcionCompra-1].getVida(), animalesHerbivoros[opcionCompra-1].getPrecio(), animalesHerbivoros[opcionCompra-1].getTipo()));
+                Herbivoro animalComprado = new Herbivoro(animalesHerbivoros[opcionCompra-1].getNombre(), animalesHerbivoros[opcionCompra-1].getVida(), animalesHerbivoros[opcionCompra-1].getPrecio(), animalesHerbivoros[opcionCompra-1].getTipo());
+                Mercado.agregarProducto(animalComprado, opcionCompra-1);
+                p1.agregarAnimal(animalComprado);
                 p1.disminuirOro(animalesHerbivoros[opcionCompra-1].getPrecio());
                 animalesHerbivoros[opcionCompra-1].setCantidadAnimal();
             } else {
-                p1.agregarAnimal(new Omnivoro(animalesOmnivoros[opcionCompra-1].getNombre(), animalesOmnivoros[opcionCompra-1].getVida(), animalesOmnivoros[opcionCompra-1].getPrecio(), animalesOmnivoros[opcionCompra-1].getTipo()));
+                Omnivoro animalComprado = new Omnivoro(animalesOmnivoros[opcionCompra-1].getNombre(), animalesOmnivoros[opcionCompra-1].getVida(), animalesOmnivoros[opcionCompra-1].getPrecio(), animalesOmnivoros[opcionCompra-1].getTipo());
+                Mercado.agregarProducto(animalComprado, opcionCompra-1);
+                p1.agregarAnimal(animalComprado);
                 p1.disminuirOro(animalesOmnivoros[opcionCompra-1].getPrecio());
                 animalesOmnivoros[opcionCompra-1].setCantidadAnimal();
             }
             JOptionPane.showMessageDialog(null, "Animal comprado con éxito.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
         } catch(NumberFormatException e){
+
             JOptionPane.showMessageDialog(null, "Opción incorrecta.", "SurvivalVille", JOptionPane.ERROR_MESSAGE);
         } catch(ArrayIndexOutOfBoundsException e){
+
             JOptionPane.showMessageDialog(null, "Este animal no se encuentra en la lista.", "SurvivalVille", JOptionPane.ERROR_MESSAGE);
         }
         
@@ -124,6 +132,29 @@ public class Mercado {
                 arregloAnimales+=(i+1)+". "+animalesOmnivoros[i].getNombre()+". Precio: "+animalesOmnivoros[i].getPrecio()+". Tiempo de vida: "+animalesOmnivoros[i].getVida()+" Segundos.\n";
             }
             return arregloAnimales;
+        }
+    }
+
+    private static void agregarProducto(Animal animalComprado, int indice){
+
+        if(animalComprado instanceof Herbivoro){
+
+            for(int i = 0; i < animalesHerbivoros[indice].getArregloProductos().length; i++){
+                if(animalesHerbivoros[indice].getArregloProductos()[i] instanceof Materia){
+                    animalComprado.agregarProducto(new Materia(animalesHerbivoros[indice].getArregloProductos()[i].getNombre(), animalesHerbivoros[indice].getArregloProductos()[i].getPrecio(), animalesHerbivoros[indice].getArregloProductos()[i].getCantidad(), animalesHerbivoros[indice].getArregloProductos()[i].getTipoProducto()));
+                } else {
+                    animalComprado.agregarProducto(new Alimento(animalesHerbivoros[indice].getArregloProductos()[i].getNombre(), animalesHerbivoros[indice].getArregloProductos()[i].getPrecio(),animalesHerbivoros[indice].getArregloProductos()[i].getCantidad(),((Alimento)animalesHerbivoros[indice].getArregloProductos()[i]).getVida(), animalesHerbivoros[indice].getArregloProductos()[i].getTipoProducto()));
+                }
+            }
+        } else {
+
+            for(int i = 0; i < animalesOmnivoros[indice].getArregloProductos().length; i++){
+                if(animalesOmnivoros[indice].getArregloProductos()[i] instanceof Materia){
+                    animalComprado.agregarProducto(new Materia(animalesOmnivoros[indice].getArregloProductos()[i].getNombre(), animalesOmnivoros[indice].getArregloProductos()[i].getPrecio(), animalesOmnivoros[indice].getArregloProductos()[i].getCantidad(), animalesOmnivoros[indice].getArregloProductos()[i].getTipoProducto()));
+                } else {
+                    animalComprado.agregarProducto(new Alimento(animalesOmnivoros[indice].getArregloProductos()[i].getNombre(), animalesOmnivoros[indice].getArregloProductos()[i].getPrecio(),animalesOmnivoros[indice].getArregloProductos()[i].getCantidad(),((Alimento)animalesOmnivoros[indice].getArregloProductos()[i]).getVida(), animalesOmnivoros[indice].getArregloProductos()[i].getTipoProducto()));
+                }
+            }
         }
     }
 
@@ -168,13 +199,15 @@ public class Mercado {
             +"Ingrese el dígito de la semilla que desea comprar:","SurvivalVille", JOptionPane.INFORMATION_MESSAGE));
             if(opcionSemilla==1){
                 Grano granoCompra = new Grano(granos[opcionCompra-1].getNombre(), granos[opcionCompra-1].getVida(), granos[opcionCompra-1].getPrecio());
-                granoCompra.agregarProducto(granos[opcionCompra-1].getProducto());
+                Alimento granoProducto = new Alimento(granos[opcionCompra-1].getProducto().getNombre(), granos[opcionCompra-1].getProducto().getPrecio(), granos[opcionCompra-1].getProducto().getCantidad(),((Alimento)granos[opcionCompra-1].getProducto()).getVida(), TipoProducto.GRANO);
+                granoCompra.agregarProducto(granoProducto);
                 p1.agregarPlanta(granoCompra);
                 p1.disminuirOro(granoCompra.getPrecio());
                 granos[opcionCompra-1].setCantidadAdquirida();
             } else {
                 Fruto frutoCompra = new Fruto(frutos[opcionCompra-1].getNombre(), frutos[opcionCompra-1].getVida(), frutos[opcionCompra-1].getPrecio());
-                frutoCompra.agregarProducto(frutos[opcionCompra-1].getProducto());
+                Alimento frutoProducto = new Alimento(frutos[opcionCompra-1].getProducto().getNombre(), frutos[opcionCompra-1].getProducto().getPrecio(), frutos[opcionCompra-1].getProducto().getCantidad(),((Alimento)frutos[opcionCompra-1].getProducto()).getVida(), TipoProducto.FRUTO);
+                frutoCompra.agregarProducto(frutoProducto);
                 p1.agregarPlanta(frutoCompra);
                 p1.disminuirOro(frutoCompra.getPrecio());
                 frutos[opcionCompra-1].setCantidadAdquirida();

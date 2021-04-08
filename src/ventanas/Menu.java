@@ -15,7 +15,7 @@ public class Menu extends JFrame{
     private static JButton botonInicio, botonCrear, botonReporte, botonSalir;
     private static JLabel menu;
     public static Menu m1;
-    public static Producto[] productosJuego = {new Alimento("Carne", 75, 75, 25, TipoProducto.ALDESTAZAR), new Alimento("Huevos", 25, 100, 10, TipoProducto.SINDESTAZAR), new Materia("Cuero", 75,25, TipoProducto.ALDESTAZAR), new Alimento("Leche", 60, 100, 5, TipoProducto.SINDESTAZAR), new Alimento("Grano", 30, 10, 10, TipoProducto.SIEMBRA), new Alimento("Manzana", 5, 10, 5, TipoProducto.SIEMBRA)};
+    public static Producto[] productosJuego = {new Alimento("Carne", 75, 75, 25, TipoProducto.ALDESTAZAR), new Alimento("Huevos", 25, 100, 10, TipoProducto.SINDESTAZAR), new Materia("Cuero", 75,25, TipoProducto.ALDESTAZAR), new Alimento("Leche", 60, 100, 5, TipoProducto.SINDESTAZAR), new Alimento("Grano", 30, 10, 10, TipoProducto.GRANO), new Alimento("Manzana", 5, 10, 5, TipoProducto.FRUTO)};
     public static Animal[] animalesHerbivoros ={new Herbivoro("Vaca", 125, 100, TipoProducto.AMBOS)};
     public static Animal[] animalesOmnivoros ={new Omnivoro("Gallina", 75, 50, TipoProducto.AMBOS)};
     public static Planta[] granos = {new Grano("Maíz", 30, 5)};

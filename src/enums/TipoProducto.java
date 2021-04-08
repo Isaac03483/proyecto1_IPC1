@@ -1,5 +1,5 @@
 package enums;
 
 public enum TipoProducto {
-    ALDESTAZAR, SINDESTAZAR, AMBOS, SIEMBRA;
+    ALDESTAZAR, SINDESTAZAR, AMBOS, GRANO, FRUTO;
 }

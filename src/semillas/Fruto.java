@@ -22,8 +22,8 @@ public class Fruto extends Planta{
 
     @Override
     public void run(){
-        int  tiempoVida=this.vida;
-        int duracionVida = this.getVida()/this.producto.getCantidad();
+        
+        int duracionVida = this.vida/this.producto.getCantidad();
         this.cantidadProducto=0;
         this.imagenEtiqueta.setVisible(true);
         colocarImagen(imagenFruto);
@@ -31,7 +31,7 @@ public class Fruto extends Planta{
 
         do{
             
-            this.terreno.setToolTipText("Tiempo de vida restante: "+tiempoVida);
+            this.terreno.setToolTipText("Tiempo de vida restante: "+this.vida);
             try{
 
                 Fruto.sleep(duracionVida*1000);
@@ -41,18 +41,18 @@ public class Fruto extends Planta{
 
             
             if(this.terreno.getEstado() == EstadoGrama.CONSIEMBRA){
-                tiempoVida-=duracionVida;
+                this.vida-=duracionVida;
                 this.cantidadProducto++;
                 
                 colocarImagen(imagenListo);
                 this.terreno.cambiarEstado(EstadoGrama.FRUTOLISTO);
             } else {
-                tiempoVida-=duracionVida;
+                this.vida-=duracionVida;
                 this.cantidadProducto++;
             }
             
             
-        } while(tiempoVida > 0);
+        } while(this.vida > 0);
 
         this.imagenEtiqueta.setVisible(false);
         this.terreno.cambiarEstado(EstadoGrama.DISPONIBLE);

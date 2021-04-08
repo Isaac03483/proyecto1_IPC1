@@ -1,11 +1,12 @@
 package animales;
 
 import productos.*;
+import terrenos.Parcela;
 import enums.*;
 
 import static ventanas.Menu.redimensionarProductos;
 
-import javax.swing.JOptionPane;
+import javax.swing.JLabel;
 public abstract class Animal extends Thread{
     
     protected String nombre;
@@ -17,6 +18,9 @@ public abstract class Animal extends Thread{
     protected int comidaIngerida;
     protected int cantidadAnimales;
     protected int criasDestazadas;
+    protected Parcela terreno;
+    protected JLabel imagenEtiqueta;
+
     public Animal(String nombre, int vida, double precio,TipoProducto tipo){
 
         this.nombre = nombre;
@@ -24,6 +28,7 @@ public abstract class Animal extends Thread{
         this.precio = precio;
         this.cantidadAnimales = 0;
         this.criasDestazadas=0;
+        this.comidaIngerida=0;
         this.tipo = tipo;
         this.productos = new Producto[0];
         this.estado = EstadoAnimal.VIVO;
@@ -35,7 +40,7 @@ public abstract class Animal extends Thread{
 
     public int getVida(){return this.vida;}
 
-    public String getProducto(int i){return this.productos[i].getNombre();}
+    public Producto[] getArregloProductos(){return this.productos;}  
 
     public EstadoAnimal getEstado(){return this.estado;}
 
@@ -51,8 +56,6 @@ public abstract class Animal extends Thread{
 
     @Override
     public abstract void run();
-    
-    public abstract void comer();
 
 
     public void agregarProducto(Producto productoNuevo){
@@ -73,6 +76,12 @@ public abstract class Animal extends Thread{
         }  else {
             this.productos = redimensionarProductos(this.productos, productoNuevo);
         }
+    }
+
+    public void elegirTerreno(Parcela terreno, JLabel objeto){
+
+        this.terreno=terreno;
+        this.imagenEtiqueta=objeto;
     }
 
     

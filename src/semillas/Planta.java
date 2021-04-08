@@ -60,17 +60,13 @@ public abstract class Planta extends Thread{
 
         this.terreno = terreno;
         this.imagenEtiqueta = etiqueta;
-        
-        
+            
     }
 
     public void agregarProducto(Producto productoNuevo){
-
-        
+    
         this.producto = productoNuevo;
-        
-
-        
+    
     }
 
     public boolean productoAsignado(){

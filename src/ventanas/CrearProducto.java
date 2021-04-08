@@ -428,7 +428,13 @@ public class CrearProducto extends JFrame{
                 tipoProducto = TipoProducto.SINDESTAZAR;
             }
         } else if(radioSemilla.isSelected()){
-            tipoProducto = TipoProducto.SIEMBRA;
+            Planta plantaSeleccionada = (Planta)comboAgregar.getSelectedItem();
+
+            if(plantaSeleccionada instanceof Grano){
+                tipoProducto = TipoProducto.GRANO;
+            } else {
+                tipoProducto = TipoProducto.FRUTO;
+            }
         }
     }
 
@@ -468,6 +474,7 @@ public class CrearProducto extends JFrame{
         }
 
         indiceProducto = productosJuego.length-1;
+        limpiarTexto();
     }
 
 
@@ -529,5 +536,12 @@ public class CrearProducto extends JFrame{
             }
         
         }
+    }
+
+    private void limpiarTexto(){
+        textoNombre.setText("");
+        textoCantidad.setText("");
+        textoPrecio.setText("");
+        textoVida.setText("");
     }
 }

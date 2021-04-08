@@ -15,7 +15,6 @@ import static ventanas.Inicio.*;
 
 public class Jugador extends Thread{
 
-    private Thread sembrar;
     private String nombre;
     private String nickName;
     private double oro;
@@ -257,11 +256,26 @@ public class Jugador extends Thread{
             
             terreno.setPlanta(semillas[opcionSemilla-1]);
             semillas[opcionSemilla-1].elegirTerreno(terreno, objetos);
-            sembrar = new Thread(semillas[opcionSemilla-1]);
+            Thread sembrar = new Thread(semillas[opcionSemilla-1]);
             sembrar.start();
             eliminarSemilla(opcionSemilla-1);
         } catch(ArrayIndexOutOfBoundsException e){
 
+            JOptionPane.showMessageDialog(null, "Esta opción no se encuentra en el arreglo.", "SurvivalVille", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void colocarAnimal(Parcela terreno, JLabel objetos, int opcionAnimal){
+
+        try{
+
+            terreno.setAnimal(animales[opcionAnimal-1]);
+            animales[opcionAnimal-1].elegirTerreno(terreno, objetos);
+            Thread colocarAnimal = new Thread(animales[opcionAnimal-1]);
+            colocarAnimal.start();
+            eliminarAnimal(opcionAnimal-1);
+
+        } catch(ArrayIndexOutOfBoundsException e){
             JOptionPane.showMessageDialog(null, "Esta opción no se encuentra en el arreglo.", "SurvivalVille", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -279,6 +293,21 @@ public class Jugador extends Thread{
         }
 
         semillas = nArreglo;
+    }
+
+    public void eliminarAnimal(int indice){
+
+        Animal[] nArreglo = new Animal[animales.length-1];
+
+        for(int i = indice; i < animales.length-1; i++){
+            animales[i] = animales[i+1];
+        }
+
+        for(int i = 0; i < nArreglo.length; i++){
+            nArreglo[i] = animales[i];
+        }
+
+        animales = nArreglo;
     }
         
     

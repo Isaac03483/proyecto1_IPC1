@@ -12,8 +12,6 @@ public class Grama extends Terreno{
     private EstadoGrama estado;
     private Planta semilla;
     static ImageIcon imagen2 = new ImageIcon("pasto.png");
-    static ImageIcon imagenFruto = new ImageIcon("manzana.png");
-    static ImageIcon imagenGrano = new ImageIcon("maiz.png");
 
     public Grama(){
        estado = EstadoGrama.DISPONIBLE;
