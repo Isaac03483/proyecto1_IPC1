@@ -41,15 +41,13 @@ public class Fruto extends Planta{
 
             
             if(this.terreno.getEstado() == EstadoGrama.CONSIEMBRA){
-                this.vida-=duracionVida;
-                this.cantidadProducto++;
                 
                 colocarImagen(imagenListo);
                 this.terreno.cambiarEstado(EstadoGrama.FRUTOLISTO);
-            } else {
-                this.vida-=duracionVida;
-                this.cantidadProducto++;
             }
+
+            this.vida-=duracionVida;
+            this.cantidadProducto++;
             
             
         } while(this.vida > 0);
@@ -57,7 +55,6 @@ public class Fruto extends Planta{
         this.imagenEtiqueta.setVisible(false);
         this.terreno.cambiarEstado(EstadoGrama.DISPONIBLE);
         JOptionPane.showMessageDialog(null, "La siembra de "+this.producto.getNombre()+" ha muerto.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
-        actualizarCeldasSembradas(this);
         
 
     }

@@ -7,6 +7,7 @@ import productos.Alimento;
 import productos.Producto;
 import semillas.*;
 import terrenos.*;
+import ventanas.Juego;
 import juego.Barco;
 import static ventanas.Juego.*;
 import static ventanas.Menu.*;
@@ -260,6 +261,7 @@ public class Jugador extends Thread{
             Thread sembrar = new Thread(semillas[opcionSemilla-1]);
             sembrar.start();
             eliminarSemilla(opcionSemilla-1);
+            Juego.actualizarCeldasSembradas(terreno.getPlanta());
         } catch(ArrayIndexOutOfBoundsException e){
 
             JOptionPane.showMessageDialog(null, "Esta opción no se encuentra en el arreglo.", "SurvivalVille", JOptionPane.ERROR_MESSAGE);
@@ -275,7 +277,6 @@ public class Jugador extends Thread{
             Thread colocarAnimal = new Thread(animales[opcionAnimal-1]);
             colocarAnimal.start();
             eliminarAnimal(opcionAnimal-1);
-
         } catch(ArrayIndexOutOfBoundsException e){
             JOptionPane.showMessageDialog(null, "Esta opción no se encuentra en el arreglo.", "SurvivalVille", JOptionPane.ERROR_MESSAGE);
         }
