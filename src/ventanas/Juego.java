@@ -230,48 +230,21 @@ public class Juego extends JFrame{
     //oyentes de acción de todos los botones/etiquetas
 
     private void oyenteGranja(){
-        MouseListener oyenteAccion = new MouseListener(){
+        granero.addMouseListener(new MouseAdapter(){
 
             @Override
             public void mouseClicked(MouseEvent arg0) {
                 Bodega.bodega();
-            }
+            }  
+        });
 
-            @Override
-            public void mouseEntered(MouseEvent arg0) {
-                // TODO Auto-generated method stub
-                
-            }
-
-            @Override
-            public void mouseExited(MouseEvent arg0) {
-                // TODO Auto-generated method stub
-                
-            }
-
-            @Override
-            public void mousePressed(MouseEvent arg0) {
-                // TODO Auto-generated method stub
-                
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent arg0) {
-                // TODO Auto-generated method stub
-                
-            }
-
-            
-        };
-
-        granero.addMouseListener(oyenteAccion);
     }
 
     private void oyenteTerreno(int i, int j){ //le asignamos un evento a todos los terrenos/JLabels
-        MouseListener oyenteAccion = new MouseListener(){
+        terreno[i][j].addMouseListener(new MouseAdapter(){
 
             @Override
-            public void mouseClicked(MouseEvent arg0) {
+            public void mouseClicked(MouseEvent ae) {
                 
                 if(verTerreno.isSelected()){
                     if(terreno[i][j] instanceof Grama){
@@ -295,68 +268,23 @@ public class Juego extends JFrame{
                 }
             }
 
-            @Override
-            public void mouseEntered(MouseEvent arg0) {
-                
-            }
+            
+        });
 
-            @Override
-            public void mouseExited(MouseEvent arg0) {
-                // TODO Auto-generated method stub
-                
-            }
-
-            @Override
-            public void mousePressed(MouseEvent arg0) {
-                // TODO Auto-generated method stub
-                
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent arg0) {
-                // TODO Auto-generated method stub
-                
-            }
-        };
-
-        terreno[i][j].addMouseListener(oyenteAccion);
+        
     }
 
     
 
     //metodo para cuando le den click a la etiqueta que contiene el mercado
     private void oyenteMercado(){
-        MouseListener oyenteMouse = new MouseListener(){
+        etiquetaMercado.addMouseListener(new MouseAdapter(){
 
             @Override
-            public void mouseClicked(MouseEvent arg0) {
+            public void mouseClicked(MouseEvent ae){
                 Mercado.menuMercado();
-            
             }
-
-            @Override
-            public void mouseEntered(MouseEvent arg0) {
-                
-            }
-
-            @Override
-            public void mouseExited(MouseEvent arg0) {
-               
-            }
-
-            @Override
-            public void mousePressed(MouseEvent arg0) {
-                
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent arg0) {
-                
-            }
-
-        };
-
-        etiquetaMercado.addMouseListener(oyenteMouse);
+        });
     }
 
     //agregamos evento al boton volver
@@ -395,7 +323,13 @@ public class Juego extends JFrame{
                                     objetos[i][j].setVisible(true);
                                 }
                             } else if(terreno[i][j] instanceof Grama){
-                                if(((Grama)terreno[i][j]).getEstado() == EstadoGrama.CONSIEMBRA || ((Grama)terreno[i][j]).getEstado() == EstadoGrama.SIEMBRALISTA){
+                                if(((Grama)terreno[i][j]).getEstado() == EstadoGrama.CONSIEMBRA || ((Grama)terreno[i][j]).getEstado() == EstadoGrama.SIEMBRALISTA || ((Grama)terreno[i][j]).getEstado() == EstadoGrama.INFERTIL){
+                                    objetos[i][j].setVisible(true);
+                                } else if(((Grama)terreno[i][j]).getEstado() == EstadoGrama.FRUTOLISTO){
+                                    objetos[i][j].setVisible(true);
+                                }
+                            } else if(terreno[i][j] instanceof Parcela){
+                                if(((Parcela)terreno[i][j]).getEstado() == EstadoParcela.ANIMALPREPARADO || ((Parcela)terreno[i][j]).getEstado() == EstadoParcela.CONANIMAL || ((Parcela)terreno[i][j]).getEstado() == EstadoParcela.ANIMALMUERTO){
                                     objetos[i][j].setVisible(true);
                                 }
                             }
@@ -457,39 +391,39 @@ public class Juego extends JFrame{
                                     //dentro de esta condición verificaremos en qué número de columna se encuentra el ciclo j
                                     if(j == 0){ //si el ciclo j se encuentra en la primera columna
 
-                                        if(terreno[i][j+1] instanceof Grama){ //si el terreno a su derecha (posicion i = 0, j = 1) es grama
+                                        if(terreno[i][j+1] instanceof Grama && terreno[i][j+1].isEnabled()){ //si el terreno a su derecha (posicion i = 0, j = 1) es grama
                                             terreno[i][j].setVisible(true); //mostramos ambos terrenos
                                             terreno[i][j+1].setVisible(true);
                                         }
 
-                                        if(terreno[i+1][j] instanceof Grama){ //si el terreno abajo de él i = 1 j = 0 es grama
+                                        if(terreno[i+1][j] instanceof Grama && terreno[i+1][j].isEnabled()){ //si el terreno abajo de él i = 1 j = 0 es grama
                                             terreno[i][j].setVisible(true); //mostramos ambos terrenos
                                             terreno[i+1][j].setVisible(true);
 
                                         }
                                     } else if ( j == 6){ //si el ciclo j se encuentra en la última columna
 
-                                        if(terreno[i][j-1] instanceof Grama){ //si el terreno a su izquierda es Grama
+                                        if(terreno[i][j-1] instanceof Grama && terreno[i][j-1].isEnabled()){ //si el terreno a su izquierda es Grama
                                             terreno[i][j].setVisible(true);
                                             terreno[i][j-1].setVisible(true);
                                         }
 
-                                        if(terreno[i+1][j] instanceof Grama){ //si el terreno abajo es Grama
+                                        if(terreno[i+1][j] instanceof Grama && terreno[i+1][j].isEnabled()){ //si el terreno abajo es Grama
                                             terreno[i][j].setVisible(true);
                                             terreno[i+1][j].setVisible(true);
                                         }
                                     } else { //si el ciclo j se encuentra en una de las columnas intermedias
 
-                                        if(terreno[i][j-1] instanceof Grama){ //si el terreno a su izquierda es Grama
+                                        if(terreno[i][j-1] instanceof Grama && terreno[i][j-1].isEnabled()){ //si el terreno a su izquierda es Grama
                                             terreno[i][j].setVisible(true);
                                             terreno[i][j-1].setVisible(true);
                                         }
-                                        if(terreno[i][j+1] instanceof Grama){ //si el terreno a su derecha es Grama
+                                        if(terreno[i][j+1] instanceof Grama && terreno[i][j+1].isEnabled()){ //si el terreno a su derecha es Grama
 
                                             terreno[i][j].setVisible(true);
                                             terreno[i][j+1].setVisible(true);
                                         }
-                                        if(terreno[i+1][j] instanceof Grama){ //si el terreno debajo es Grama
+                                        if(terreno[i+1][j] instanceof Grama && terreno[i+1][j].isEnabled()){ //si el terreno debajo es Grama
                                             terreno[i][j].setVisible(true);
                                             terreno[i+1][j].setVisible(true);
                                         }
@@ -501,42 +435,42 @@ public class Juego extends JFrame{
                                     //dentro de esta condición verificaremos en qué número de columna se encuentra el ciclo j
                                     if(j == 0){ //si el ciclo j se encuentra en la primera columna
 
-                                        if(terreno[i][j+1] instanceof Grama){ //si el terreno a su derecha es Grama
+                                        if(terreno[i][j+1] instanceof Grama && terreno[i][j+1].isEnabled()){ //si el terreno a su derecha es Grama
                                             terreno[i][j].setVisible(true);
                                             terreno[i][j+1].setVisible(true);
                                         }
 
-                                        if(terreno[i-1][j] instanceof Grama){//si el terreno sobre él es Grama
+                                        if(terreno[i-1][j] instanceof Grama && terreno[i-1][j].isEnabled()){//si el terreno sobre él es Grama
 
                                             terreno[i][j].setVisible(true);
                                             terreno[i-1][j].setVisible(true);
                                         }
                                     } else if ( j == 6){ //si el ciclo j se encuentra en la última columna
 
-                                        if(terreno[i][j-1] instanceof Grama){ //si el terreno a su izquierda es Grama
+                                        if(terreno[i][j-1] instanceof Grama && terreno[i][j-1].isEnabled()){ //si el terreno a su izquierda es Grama
                                             terreno[i][j].setVisible(true);
                                             terreno[i][j-1].setVisible(true);
                                         }
 
-                                        if(terreno[i-1][j] instanceof Grama){ //si el terreno sobre él es Grama
+                                        if(terreno[i-1][j] instanceof Grama && terreno[i-1][j].isEnabled()){ //si el terreno sobre él es Grama
                                             terreno[i][j].setVisible(true);
                                             terreno[i-1][j].setVisible(true);
                                         }
                                     } else { //si el ciclo j se encuentra en una de las columnas intermedias
                                         
-                                        if(terreno[i][j-1] instanceof Grama){ //si el terreno a su izquierda es Grama
+                                        if(terreno[i][j-1] instanceof Grama && terreno[i][j-1].isEnabled()){ //si el terreno a su izquierda es Grama
 
                                             terreno[i][j].setVisible(true);
                                             terreno[i][j-1].setVisible(true);
                                         }
 
-                                        if(terreno[i][j+1] instanceof Grama){ //si el terreno a su derecha es Grama
+                                        if(terreno[i][j+1] instanceof Grama && terreno[i][j+1].isEnabled()){ //si el terreno a su derecha es Grama
 
                                             terreno[i][j].setVisible(true);
                                             terreno[i][j+1].setVisible(true);
                                         }
 
-                                        if(terreno[i-1][j] instanceof Grama){ //si el terreno sobre él es Grama
+                                        if(terreno[i-1][j] instanceof Grama && terreno[i-1][j].isEnabled()){ //si el terreno sobre él es Grama
 
                                             terreno[i][j].setVisible(true);
                                             terreno[i-1][j].setVisible(true);
@@ -548,19 +482,19 @@ public class Juego extends JFrame{
                                     //dentro de esta condición verificaremos en qué número de columna se encuentra el ciclo j
                                     if(j == 0){ //si el ciclo j se encuentra en la primera columna
 
-                                        if(terreno[i-1][j] instanceof Grama){ //si el terreno sobre él es Grama
+                                        if(terreno[i-1][j] instanceof Grama && terreno[i-1][j].isEnabled()){ //si el terreno sobre él es Grama
 
                                             terreno[i][j].setVisible(true);
                                             terreno[i-1][j].setVisible(true);
                                         }
 
-                                        if(terreno[i+1][j] instanceof Grama){ //si el terreno debajo de él es Grama
+                                        if(terreno[i+1][j] instanceof Grama && terreno[i+1][j].isEnabled()){ //si el terreno debajo de él es Grama
 
                                             terreno[i][j].setVisible(true);
                                             terreno[i+1][j].setVisible(true);
                                         }
 
-                                        if(terreno[i][j+1] instanceof Grama){ //si el terreno a su derecha es Grama
+                                        if(terreno[i][j+1] instanceof Grama && terreno[i][j+1].isEnabled()){ //si el terreno a su derecha es Grama
 
                                             terreno[i][j].setVisible(true);
                                             terreno[i][j+1].setVisible(true);
@@ -568,41 +502,41 @@ public class Juego extends JFrame{
 
                                     } else if ( j == 6){ //si el ciclo j se encuentra en la última columna
 
-                                        if(terreno[i][j-1] instanceof Grama){ //si el terreno a su derecha es Grama
+                                        if(terreno[i][j-1] instanceof Grama && terreno[i][j-1].isEnabled()){ //si el terreno a su derecha es Grama
 
                                             terreno[i][j].setVisible(true);
                                             terreno[i][j-1].setVisible(true);
                                         }
 
-                                        if(terreno[i-1][j] instanceof Grama){ //si el terreno sobre él es Grama
+                                        if(terreno[i-1][j] instanceof Grama && terreno[i-1][j].isEnabled()){ //si el terreno sobre él es Grama
                                             terreno[i][j].setVisible(true);
                                             terreno[i-1][j].setVisible(true);
                                         }
 
-                                        if(terreno[i+1][j] instanceof Grama){ //si el terreno debajo de él es Grama
+                                        if(terreno[i+1][j] instanceof Grama && terreno[i+1][j].isEnabled()){ //si el terreno debajo de él es Grama
 
                                             terreno[i][j].setVisible(true);
                                             terreno[i+1][j].setVisible(true);
                                         }
                                     } else { //si el ciclo j se encuentra en una de las columnas intermedias
 
-                                        if(terreno[i][j+1] instanceof Grama){ //si el terreno a su izquierda es Grama
+                                        if(terreno[i][j+1] instanceof Grama && terreno[i][j+1].isEnabled()){ //si el terreno a su izquierda es Grama
                                             terreno[i][j].setVisible(true);
                                             terreno[i][j+1].setVisible(true);
                                         }
 
-                                        if(terreno[i][j-1] instanceof Grama){ //si el terreno a su derecha es Grama
+                                        if(terreno[i][j-1] instanceof Grama && terreno[i][j-1].isEnabled()){ //si el terreno a su derecha es Grama
 
                                             terreno[i][j].setVisible(true);
                                             terreno[i][j-1].setVisible(true);
                                         }
 
-                                        if(terreno[i-1][j] instanceof Grama){ //si el terreno sobre él es Grama
+                                        if(terreno[i-1][j] instanceof Grama && terreno[i-1][j].isEnabled()){ //si el terreno sobre él es Grama
                                             terreno[i][j].setVisible(true);
                                             terreno[i-1][j].setVisible(true);
                                         }
 
-                                        if(terreno[i+1][j] instanceof Grama){ //si el terreno debajo de él es Grama
+                                        if(terreno[i+1][j] instanceof Grama && terreno[i+1][j].isEnabled()){ //si el terreno debajo de él es Grama
 
                                             terreno[i][j].setVisible(true);
                                             terreno[i+1][j].setVisible(true);

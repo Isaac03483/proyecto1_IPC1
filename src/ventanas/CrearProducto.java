@@ -422,10 +422,26 @@ public class CrearProducto extends JFrame{
 
     private void verificarTipoProducto(){
         if(radioAnimal.isSelected()){
+
+            Animal animalSeleccionado = (Animal)comboAgregar.getSelectedItem();
+
             if(radioAlDestazar.isSelected()){
-                tipoProducto = TipoProducto.ALDESTAZAR;
+                if(animalSeleccionado.getTipo() == TipoProducto.SINDESTAZAR){
+                    JOptionPane.showMessageDialog(null, "Este animal solo puede producir productos sin necesidad de destazar.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
+                    permitido=false;
+                } else {
+                    tipoProducto = TipoProducto.ALDESTAZAR;
+                }
+                
             } else {
-                tipoProducto = TipoProducto.SINDESTAZAR;
+                
+                if(animalSeleccionado.getTipo() == TipoProducto.ALDESTAZAR){
+                    JOptionPane.showMessageDialog(null, "Este animal solo puede producir productos al de destazar.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
+                    permitido=false;
+                    
+                } else {
+                    tipoProducto = TipoProducto.SINDESTAZAR;
+                }
             }
         } else if(radioSemilla.isSelected()){
             Planta plantaSeleccionada = (Planta)comboAgregar.getSelectedItem();

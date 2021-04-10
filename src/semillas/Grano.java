@@ -48,7 +48,7 @@ public class Grano extends Planta{
         
         }
 
-        do {
+        while(this.terreno.getEstado() == EstadoGrama.SIEMBRALISTA && this.vida > 0){
 
             try{
                 Grano.sleep(1000);
@@ -58,7 +58,8 @@ public class Grano extends Planta{
 
             this.vida--;
             this.terreno.setToolTipText("La siembra se pudrirá en: "+this.vida);
-        } while(this.terreno.getEstado() == EstadoGrama.SIEMBRALISTA && this.vida > 0);
+
+        }
 
         if(this.terreno.getEstado() == EstadoGrama.SIEMBRALISTA){
             

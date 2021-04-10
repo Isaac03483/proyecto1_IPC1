@@ -5,7 +5,6 @@ import javax.swing.*;
 import enums.EstadoGrama;
 
 import java.awt.*;
-import static ventanas.Juego.actualizarCeldasSembradas;
 
 public class Fruto extends Planta{
 
@@ -23,7 +22,7 @@ public class Fruto extends Planta{
     @Override
     public void run(){
         
-        int duracionVida = this.vida/this.producto.getCantidad();
+        int duracionVida = (this.vida/this.producto.getCantidad());
         this.cantidadProducto=0;
         this.imagenEtiqueta.setVisible(true);
         colocarImagen(imagenFruto);
@@ -41,15 +40,13 @@ public class Fruto extends Planta{
 
             
             if(this.terreno.getEstado() == EstadoGrama.CONSIEMBRA){
-                this.vida-=duracionVida;
-                this.cantidadProducto++;
-                
+                                
                 colocarImagen(imagenListo);
                 this.terreno.cambiarEstado(EstadoGrama.FRUTOLISTO);
-            } else {
-                this.vida-=duracionVida;
-                this.cantidadProducto++;
             }
+
+            this.vida-=duracionVida;
+            this.cantidadProducto++;
             
             
         } while(this.vida > 0);
@@ -57,8 +54,7 @@ public class Fruto extends Planta{
         this.imagenEtiqueta.setVisible(false);
         this.terreno.cambiarEstado(EstadoGrama.DISPONIBLE);
         JOptionPane.showMessageDialog(null, "La siembra de "+this.producto.getNombre()+" ha muerto.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
-        actualizarCeldasSembradas(this);
-        
+        this.terreno.setToolTipText("");
 
     }
 

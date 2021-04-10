@@ -88,6 +88,8 @@ public class Reporte extends JFrame{
         tabla.setBounds(20, 60, 850, 200);
         panel.add(tabla);
 
+        tabla.setEnabled(false);
+
         scroll = new JScrollPane(tabla, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scroll.setBounds(20,60,850,200);
         panel.add(scroll);
