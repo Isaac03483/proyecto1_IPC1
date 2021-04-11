@@ -49,7 +49,7 @@ public class Omnivoro extends Animal{
         colocarImagen(imagenListo);
         this.vida = 15;
 
-        do {
+        while(this.terreno.getEstado() == EstadoParcela.ANIMALPREPARADO && this.vida > 0) {
 
             try{
                 Omnivoro.sleep(1000);
@@ -60,7 +60,7 @@ public class Omnivoro extends Animal{
             this.vida--;
             this.terreno.setToolTipText("Animal criado: "+this.nombre+" morirá en: "+this.vida);
 
-        } while(this.terreno.getEstado() == EstadoParcela.ANIMALPREPARADO && this.vida > 0);
+        }
 
         if(this.terreno.getEstado() == EstadoParcela.ANIMALPREPARADO){
             colocarImagen(imagenMuerto);
