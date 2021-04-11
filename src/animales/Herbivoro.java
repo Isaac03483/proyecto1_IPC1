@@ -45,7 +45,7 @@ public class Herbivoro extends Animal{
         colocarImagen(imagenLista);
         this.vida = 20;
 
-        while(this.terreno.getEstado() == EstadoParcela.ANIMALPREPARADO && this.vida > 0){
+        do{
 
             try{
                 Herbivoro.sleep(1000);
@@ -57,9 +57,9 @@ public class Herbivoro extends Animal{
             this.vida--;
             this.terreno.setToolTipText("Animal criado: "+this.nombre+" morirá en: "+this.vida);
 
-        }
+        } while(this.terreno.getEstado() == EstadoParcela.ANIMALPREPARADO && this.vida > 0);
 
-        if(this.terreno.getEstado() == EstadoParcela.CONANIMAL){
+        if(this.terreno.getEstado() == EstadoParcela.ANIMALPREPARADO){
             this.terreno.cambiarEstado(EstadoParcela.ANIMALMUERTO);
             this.terreno.setToolTipText("");
             colocarImagen(imagenMuerta);
