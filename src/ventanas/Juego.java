@@ -3,14 +3,8 @@ package ventanas;
 import java.awt.*;
 import javax.swing.*;
 
-import animales.Animal;
-import animales.Herbivoro;
-import animales.Omnivoro;
-import enums.EstadoBarco;
-import enums.EstadoGrama;
-import enums.EstadoLago;
-import enums.EstadoParcela;
-import enums.TipoProducto;
+import animales.*;
+import enums.*;
 
 import java.awt.event.*;
 import terrenos.Lago;

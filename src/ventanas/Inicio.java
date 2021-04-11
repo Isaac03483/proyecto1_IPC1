@@ -100,7 +100,11 @@ public class Inicio extends JFrame{
 
             @Override
             public void actionPerformed(ActionEvent ae){
-                botonInicio.setEnabled(true);
+                if(terminos.isSelected()){
+                    botonInicio.setEnabled(true);
+                } else {
+                    botonInicio.setEnabled(false);
+                }
             } 
         };
         terminos.addActionListener(oyenteAccion);
@@ -115,7 +119,7 @@ public class Inicio extends JFrame{
                 String nick = textoNick.getText();
                 if(nombre.equals("") || nick.equals("")){
 
-                    JOptionPane.showMessageDialog(null, "Uno de los campos se encuentra vacío", "Error", 0);
+                    JOptionPane.showMessageDialog(null, "Uno de los campos se encuentra vacío", "SurvivalVille", JOptionPane.ERROR_MESSAGE);
                 
                 } else {
 

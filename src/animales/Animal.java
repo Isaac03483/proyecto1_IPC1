@@ -13,7 +13,6 @@ public abstract class Animal extends Thread{
     protected int vida;
     protected double precio;
     protected Producto[] productos;
-    protected EstadoAnimal estado;
     protected TipoProducto tipo;
     protected int comidaIngerida;
     protected int cantidadAnimales;
@@ -31,7 +30,6 @@ public abstract class Animal extends Thread{
         this.comidaIngerida=0;
         this.tipo = tipo;
         this.productos = new Producto[0];
-        this.estado = EstadoAnimal.VIVO;
     }
 
     public String getNombre(){return this.nombre;}
@@ -41,8 +39,6 @@ public abstract class Animal extends Thread{
     public int getVida(){return this.vida;}
 
     public Producto[] getArregloProductos(){return this.productos;}  
-
-    public EstadoAnimal getEstado(){return this.estado;}
 
     public int getCantidadAnimal(){return this.cantidadAnimales;}
 
