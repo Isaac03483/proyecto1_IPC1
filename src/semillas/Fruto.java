@@ -17,9 +17,6 @@ public class Fruto extends Planta{
     }
 
     @Override
-    public String toString(){return this.nombre;}
-
-    @Override
     public void run(){
         
         int duracionVida = (this.vida/this.producto.getCantidad());
@@ -34,6 +31,7 @@ public class Fruto extends Planta{
             try{
 
                 Fruto.sleep(duracionVida*1000);
+                
             } catch(InterruptedException e){
                 JOptionPane.showMessageDialog(null, "Error en clase Fruto.", "SurvivalVille", JOptionPane.ERROR_MESSAGE);
             }

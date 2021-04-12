@@ -6,6 +6,7 @@ import enums.*;
 
 import static ventanas.Menu.redimensionarProductos;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 public abstract class Animal extends Thread{
     
@@ -20,16 +21,19 @@ public abstract class Animal extends Thread{
     protected Parcela terreno;
     protected JLabel imagenEtiqueta;
 
+    {
+        this.cantidadAnimales = 0;
+        this.criasDestazadas=0;
+        this.comidaIngerida=0;
+        this.productos = new Producto[0];
+    }
+
     public Animal(String nombre, int vida, double precio,TipoProducto tipo){
 
         this.nombre = nombre;
         this.vida = vida;
         this.precio = precio;
-        this.cantidadAnimales = 0;
-        this.criasDestazadas=0;
-        this.comidaIngerida=0;
         this.tipo = tipo;
-        this.productos = new Producto[0];
     }
 
     public String getNombre(){return this.nombre;}
@@ -53,7 +57,8 @@ public abstract class Animal extends Thread{
     @Override
     public abstract void run();
 
-
+    protected abstract void colocarImagen(ImageIcon imagen);
+    
     public void agregarProducto(Producto productoNuevo){
 
         boolean productoRepetido = false;

@@ -17,18 +17,23 @@ public abstract class Planta extends Thread{
     protected double precio;
     protected int cantidadAdquirida;
     protected int celdasSembradas;
-    protected Alimento alimento;
-    protected Producto producto;
+    protected Alimento producto;
+
+    {
+        this.cantidadAdquirida=0;
+        this.celdasSembradas=0;
+        this.producto = null;
+    }
 
     public Planta(String nombre, int vida, double precio){
         this.nombre = nombre;
         this.vida = vida;
         this.precio = precio;
-        this.cantidadAdquirida=0;
-        this.celdasSembradas=0;
-        this.producto = null;
         
     }
+    
+    @Override
+    public String toString(){return this.nombre;}
 
     public void setCantidadAdquirida(){this.cantidadAdquirida++;}
 
@@ -46,14 +51,9 @@ public abstract class Planta extends Thread{
 
     public Producto getProducto(){return this.producto;}
 
-    public void asignarAlimento(Alimento alimento){
-        this.alimento = alimento;
-    }
-
     @Override
     public abstract void run();
 
-    
     public abstract void colocarImagen(ImageIcon imagen);
 
     public void elegirTerreno(Grama terreno, JLabel etiqueta) {
@@ -65,7 +65,7 @@ public abstract class Planta extends Thread{
 
     public void agregarProducto(Producto productoNuevo){
     
-        this.producto = productoNuevo;
+        this.producto = (Alimento)productoNuevo;
     
     }
 

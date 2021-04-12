@@ -13,7 +13,7 @@ import static ventanas.Inicio.*;
 public class Mercado {
 
     public static Barco barcoComprado;
-    public static final double precioBarco = 500;
+    public static final double precioBarco = 1500;
 
     //método para el menú del mercado
     public static void menuMercado(){

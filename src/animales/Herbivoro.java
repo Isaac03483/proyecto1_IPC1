@@ -73,7 +73,8 @@ public class Herbivoro extends Animal{
     }
 
 
-    private void colocarImagen(ImageIcon imagen){
+    @Override
+    public void colocarImagen(ImageIcon imagen){
         this.imagenEtiqueta.setIcon(new ImageIcon(imagen.getImage().getScaledInstance(this.imagenEtiqueta.getWidth(), this.imagenEtiqueta.getHeight(), Image.SCALE_SMOOTH)));
     }
 

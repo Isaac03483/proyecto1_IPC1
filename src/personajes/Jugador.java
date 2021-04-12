@@ -30,11 +30,8 @@ public class Jugador extends Thread{
     private int alimentoConsumido;
     private int celdasCompradas;
 
-    public Jugador(String nombre, String nickName,double oro, int vida){
-        this.nombre= nombre;
-        this.nickName = nickName;
-        this.oro = oro;
-        this.vida = vida;
+
+    {
         this.tiempoDurado=0;
         this.oroGenerado=0;
         this.celdasCompradas=0;
@@ -44,6 +41,13 @@ public class Jugador extends Thread{
         this.semillas = new Planta[0];
         this.productos = new Producto[0];
         this.barco= new Barco[0];
+    }
+    
+    public Jugador(String nombre, String nickName,double oro, int vida){
+        this.nombre= nombre;
+        this.nickName = nickName;
+        this.oro = oro;
+        this.vida = vida;
 
     }
 
@@ -168,7 +172,7 @@ public class Jugador extends Thread{
 
         semillas = redimensionarPlantas(semillas, nuevaPlanta);
 
-    }
+    } 
 
     public void agregarProducto(Producto nuevoProducto){
         

@@ -5,7 +5,6 @@ import java.awt.Image;
 import javax.swing.*;
 
 import enums.EstadoGrama;
-import terrenos.Grama;
 
 public class Grano extends Planta{
     
@@ -18,10 +17,6 @@ public class Grano extends Planta{
         super(nombre, vida, precio);
 
     }
-
-
-    @Override
-    public String toString(){return this.nombre;}
 
     @Override
     public void run(){

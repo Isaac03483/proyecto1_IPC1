@@ -74,6 +74,7 @@ public class Omnivoro extends Animal{
         }
     }
 
+    @Override
     public void colocarImagen(ImageIcon imagen){
         this.imagenEtiqueta.setIcon(new ImageIcon(imagen.getImage().getScaledInstance(this.imagenEtiqueta.getWidth(), this.imagenEtiqueta.getHeight(), Image.SCALE_SMOOTH)));
     }

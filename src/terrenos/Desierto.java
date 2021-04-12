@@ -8,9 +8,6 @@ public class Desierto extends Terreno {
 
     static ImageIcon imagen3 = new ImageIcon("tierra.png");
     
-    public Desierto(){
-        
-    }
 
     @Override
     public void generarTerreno(){
