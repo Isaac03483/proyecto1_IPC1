@@ -21,6 +21,7 @@ public class Reporte extends JFrame{
     public Reporte(){
         this.setSize(900,300);
         this.setLocationRelativeTo(null);
+        this.setTitle("SurvivalVille");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setResizable(false);
 

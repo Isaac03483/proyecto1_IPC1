@@ -94,19 +94,32 @@ public class Mercado {
             +"\n"+presentarAnimales(opcionAnimal)
             +"Ingrese el dígito del animal que desea comprar:","SurvivalVille", JOptionPane.INFORMATION_MESSAGE));
             if(opcionAnimal==1){
-                Herbivoro animalComprado = new Herbivoro(animalesHerbivoros[opcionCompra-1].getNombre(), animalesHerbivoros[opcionCompra-1].getVida(), animalesHerbivoros[opcionCompra-1].getPrecio(), animalesHerbivoros[opcionCompra-1].getTipo());
-                Mercado.agregarProducto(animalComprado, opcionCompra-1);
-                p1.agregarAnimal(animalComprado);
-                p1.disminuirOro(animalesHerbivoros[opcionCompra-1].getPrecio());
-                animalesHerbivoros[opcionCompra-1].setCantidadAnimal();
+                if(p1.getOro() >= animalesHerbivoros[opcionCompra-1].getPrecio()){
+                    Herbivoro animalComprado = new Herbivoro(animalesHerbivoros[opcionCompra-1].getNombre(), animalesHerbivoros[opcionCompra-1].getVida(), animalesHerbivoros[opcionCompra-1].getPrecio(), animalesHerbivoros[opcionCompra-1].getTipo());
+                    Mercado.agregarProducto(animalComprado, opcionCompra-1);
+                    p1.agregarAnimal(animalComprado);
+                    p1.disminuirOro(animalesHerbivoros[opcionCompra-1].getPrecio());
+                    animalesHerbivoros[opcionCompra-1].setCantidadAnimal();
+                    JOptionPane.showMessageDialog(null, "Animal comprado con éxito.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "No cuentas con el oro suficiente.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
+                }
+                
             } else {
-                Omnivoro animalComprado = new Omnivoro(animalesOmnivoros[opcionCompra-1].getNombre(), animalesOmnivoros[opcionCompra-1].getVida(), animalesOmnivoros[opcionCompra-1].getPrecio(), animalesOmnivoros[opcionCompra-1].getTipo());
-                Mercado.agregarProducto(animalComprado, opcionCompra-1);
-                p1.agregarAnimal(animalComprado);
-                p1.disminuirOro(animalesOmnivoros[opcionCompra-1].getPrecio());
-                animalesOmnivoros[opcionCompra-1].setCantidadAnimal();
+                if(p1.getOro() >= animalesOmnivoros[opcionCompra-1].getPrecio()){
+
+                    Omnivoro animalComprado = new Omnivoro(animalesOmnivoros[opcionCompra-1].getNombre(), animalesOmnivoros[opcionCompra-1].getVida(), animalesOmnivoros[opcionCompra-1].getPrecio(), animalesOmnivoros[opcionCompra-1].getTipo());
+                    Mercado.agregarProducto(animalComprado, opcionCompra-1);
+                    p1.agregarAnimal(animalComprado);
+                    p1.disminuirOro(animalesOmnivoros[opcionCompra-1].getPrecio());
+                    animalesOmnivoros[opcionCompra-1].setCantidadAnimal();
+                    JOptionPane.showMessageDialog(null, "Animal comprado con éxito.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "No cuentas con el oro suficiente.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
+                }
+                
             }
-            JOptionPane.showMessageDialog(null, "Animal comprado con éxito.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
+            
         } catch(NumberFormatException e){
 
             JOptionPane.showMessageDialog(null, "Opción incorrecta.", "SurvivalVille", JOptionPane.ERROR_MESSAGE);
@@ -198,21 +211,31 @@ public class Mercado {
             +"\n"+presentarSemillas(opcionSemilla)
             +"Ingrese el dígito de la semilla que desea comprar:","SurvivalVille", JOptionPane.INFORMATION_MESSAGE));
             if(opcionSemilla==1){
-                Grano granoCompra = new Grano(granos[opcionCompra-1].getNombre(), granos[opcionCompra-1].getVida(), granos[opcionCompra-1].getPrecio());
-                Alimento granoProducto = new Alimento(granos[opcionCompra-1].getProducto().getNombre(), granos[opcionCompra-1].getProducto().getPrecio(), granos[opcionCompra-1].getProducto().getCantidad(),((Alimento)granos[opcionCompra-1].getProducto()).getVida(), TipoProducto.GRANO);
-                granoCompra.agregarProducto(granoProducto);
-                p1.agregarPlanta(granoCompra);
-                p1.disminuirOro(granoCompra.getPrecio());
-                granos[opcionCompra-1].setCantidadAdquirida();
+                if(p1.getOro() >= granos[opcionCompra-1].getPrecio()){
+                    Grano granoCompra = new Grano(granos[opcionCompra-1].getNombre(), granos[opcionCompra-1].getVida(), granos[opcionCompra-1].getPrecio());
+                    Alimento granoProducto = new Alimento(granos[opcionCompra-1].getProducto().getNombre(), granos[opcionCompra-1].getProducto().getPrecio(), granos[opcionCompra-1].getProducto().getCantidad(),((Alimento)granos[opcionCompra-1].getProducto()).getVida(), TipoProducto.GRANO);
+                    granoCompra.agregarProducto(granoProducto);
+                    p1.agregarPlanta(granoCompra);
+                    p1.disminuirOro(granoCompra.getPrecio());
+                    granos[opcionCompra-1].setCantidadAdquirida();
+                    JOptionPane.showMessageDialog(null, "Bolsa de semillas comprada con éxito.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "No cuentas con el oro suficiente.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
+                }
             } else {
-                Fruto frutoCompra = new Fruto(frutos[opcionCompra-1].getNombre(), frutos[opcionCompra-1].getVida(), frutos[opcionCompra-1].getPrecio());
-                Alimento frutoProducto = new Alimento(frutos[opcionCompra-1].getProducto().getNombre(), frutos[opcionCompra-1].getProducto().getPrecio(), frutos[opcionCompra-1].getProducto().getCantidad(),((Alimento)frutos[opcionCompra-1].getProducto()).getVida(), TipoProducto.FRUTO);
-                frutoCompra.agregarProducto(frutoProducto);
-                p1.agregarPlanta(frutoCompra);
-                p1.disminuirOro(frutoCompra.getPrecio());
-                frutos[opcionCompra-1].setCantidadAdquirida();
+                if(p1.getOro() >= frutos[opcionCompra-1].getPrecio()){
+                    Fruto frutoCompra = new Fruto(frutos[opcionCompra-1].getNombre(), frutos[opcionCompra-1].getVida(), frutos[opcionCompra-1].getPrecio());
+                    Alimento frutoProducto = new Alimento(frutos[opcionCompra-1].getProducto().getNombre(), frutos[opcionCompra-1].getProducto().getPrecio(), frutos[opcionCompra-1].getProducto().getCantidad(),((Alimento)frutos[opcionCompra-1].getProducto()).getVida(), TipoProducto.FRUTO);
+                    frutoCompra.agregarProducto(frutoProducto);
+                    p1.agregarPlanta(frutoCompra);
+                    p1.disminuirOro(frutoCompra.getPrecio());
+                    frutos[opcionCompra-1].setCantidadAdquirida();
+                    JOptionPane.showMessageDialog(null, "Bolsa de semillas comprada con éxito.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "No cuentas con el oro suficiente.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
+                }
             }
-            JOptionPane.showMessageDialog(null, "Bolsa de semillas comprada con éxito.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
+            
         } catch(NumberFormatException e){
             JOptionPane.showMessageDialog(null, "Opción incorrecta.", "SurvivalVille", JOptionPane.ERROR_MESSAGE);
         } catch(ArrayIndexOutOfBoundsException e){

@@ -625,10 +625,14 @@ public class Juego extends JFrame{
 
                 switch(arreglarTerreno){
                     case 1:
-                    p1.disminuirOro(precioArreglar);
-                    ((Grama)terreno[i][j]).cambiarEstado(EstadoGrama.DISPONIBLE);
-                    objetos[i][j].setVisible(false);
-                    JOptionPane.showMessageDialog(null, "Terreno limpiado con éxito.", "survivalVille", JOptionPane.INFORMATION_MESSAGE);
+                    if(p1.getOro() >= precioArreglar){
+                        p1.disminuirOro(precioArreglar);
+                        ((Grama)terreno[i][j]).cambiarEstado(EstadoGrama.DISPONIBLE);
+                        objetos[i][j].setVisible(false);
+                        JOptionPane.showMessageDialog(null, "Terreno limpiado con éxito.", "survivalVille", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No posees el oro suficiente.", "survivalVille", JOptionPane.INFORMATION_MESSAGE);
+                    }
                     break;
                     case 2:
                     break;
@@ -750,10 +754,14 @@ public class Juego extends JFrame{
                     switch(arreglarParcela){
 
                         case 1:
-                        p1.disminuirOro(precioArreglar);
-                        ((Parcela)terreno[i][j]).cambiarEstado(EstadoParcela.DISPONIBLE);
-                        JOptionPane.showMessageDialog(null, "Parcela limpiada con éxito.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
-                        objetos[i][j].setVisible(false);
+                        if(p1.getOro() >= precioArreglar){
+                            p1.disminuirOro(precioArreglar);
+                            ((Parcela)terreno[i][j]).cambiarEstado(EstadoParcela.DISPONIBLE);
+                            objetos[i][j].setVisible(false);
+                            JOptionPane.showMessageDialog(null, "Parcela limpiada con éxito.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
+                        } else{
+                            JOptionPane.showMessageDialog(null, "No posees el oro suficiente.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
+                        }
                         break;
                         case 2:
                         break;
