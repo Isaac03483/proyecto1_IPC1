@@ -12,6 +12,7 @@ public class Omnivoro extends Animal{
     private ImageIcon imagenListo = new ImageIcon("gallinaLista.png");
     private ImageIcon imagenMuerto = new  ImageIcon("gallinaMuerta.png");
 
+    //constructor
     public Omnivoro(String nombre, int vida, double precio,TipoProducto tipo){
 
         super(nombre, vida, precio, tipo);
@@ -21,6 +22,7 @@ public class Omnivoro extends Animal{
     @Override
     public String toString(){return this.nombre;}
 
+    //método run que pone a correr el hilo de vida del animal
     @Override
     public void run(){
 

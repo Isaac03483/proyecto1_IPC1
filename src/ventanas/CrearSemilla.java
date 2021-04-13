@@ -121,7 +121,7 @@ public class CrearSemilla extends JFrame{
         oyenteTipo();
     }
 
-    private void oyenteTipo(){
+    private void oyenteTipo(){  //método que agrega toda la información a las filas de la tabla
         ActionListener oyenteAccion = new ActionListener(){
 
             @Override
@@ -172,7 +172,7 @@ public class CrearSemilla extends JFrame{
         botonVolver.addActionListener(oyenteAccion);
     }
 
-    private void oyenteCrear(){
+    private void oyenteCrear(){ 
         ActionListener oyenteAccion = new ActionListener(){
 
             @Override
@@ -210,7 +210,7 @@ public class CrearSemilla extends JFrame{
         botonAgregar.addActionListener(oyenteAccion);
     }
 
-    public void crearSemilla(){
+    public void crearSemilla(){ //crea el objeto de semilla dependiendo del radioButton seleccionado
         if(radioFruto.isSelected()){
             frutos = redimensionarPlantas(frutos, new Fruto(nombre, vida,precio));
             agregarFilas(frutos);
@@ -220,27 +220,27 @@ public class CrearSemilla extends JFrame{
         }
     }
 
-    private void verificarCampos(){
+    private void verificarCampos(){ //método utilizado para verificar que los campos se hayan llenado de forma correcta
 
         verificarNombre();
         verificarNumericos();
     }
 
-    private void verificarNombre(){
+    private void verificarNombre(){ //verifica que el nombre no se encuentre vacío
         nombre = textoNombre.getText();
         if(nombre.equals("")){
             JOptionPane.showMessageDialog(null, "Campo nombre se encuentra vacío.", "SurvivalVille", JOptionPane.ERROR_MESSAGE);
-            permitido=false;
+            permitido=false; //si está vacío entonces no es permitido crear el objeto
         }
     }
 
-    private void verificarNumericos(){
+    private void verificarNumericos(){ //verifica campos numéricos como la vida y el precio de la semilla
         try{
             vida = Integer.parseInt(textoVida.getText());
             precio = Double.parseDouble(textoPrecio.getText());
         }catch(NumberFormatException e){
             JOptionPane.showMessageDialog(null, "Campos vida y precio requieren valores tipo numérico.", "SurvivalVille", JOptionPane.ERROR_MESSAGE);
-            permitido=false;
+            permitido=false; //de no ser numéricos no está permitido crear el objeto/semilla
         }
     }
 
@@ -278,7 +278,7 @@ public class CrearSemilla extends JFrame{
 
     }
 
-    private void agregarFilas(Planta[] plantas){
+    private void agregarFilas(Planta[] plantas){ //método que agrega filas a la tabla dependiendo el parámetro enviado
         
         modeloSemilla.setRowCount(0);
         for(int i = 0; i < plantas.length; i++){
@@ -288,7 +288,7 @@ public class CrearSemilla extends JFrame{
     }
 
     private void oyenteProductos(){
-
+        //método que muestra el producto de la semilla seleccionada en la tabla
         ListSelectionListener oyenteSeleccion = new ListSelectionListener(){
 
             @Override
@@ -302,15 +302,18 @@ public class CrearSemilla extends JFrame{
 
                     if(radioGrano.isSelected()){
 
-                        for(int i =0; i < animalesHerbivoros.length; i++){
+                        for(int i =0; i < granos.length; i++){
                             if(nombre.equals(granos[i].getNombre())){
                                 indice = i;
                                 break;
                             }
                         }
 
-                        String[] fila = {granos[indice].getProducto().getNombre(), Double.toString(granos[indice].getProducto().getPrecio()), Integer.toString(granos[indice].getProducto().getCantidad()), granos[indice].getProducto().getTipoProducto().name()};
-                        modeloProducto.addRow(fila);
+                        
+                        if(granos[indice].getProducto() != null){
+                            String[] fila = {granos[indice].getProducto().getNombre(), Double.toString(granos[indice].getProducto().getPrecio()), Integer.toString(granos[indice].getProducto().getCantidad()), granos[indice].getProducto().getTipoProducto().name()};
+                            modeloProducto.addRow(fila);
+                        }
                         
                     } else {
 
@@ -321,8 +324,10 @@ public class CrearSemilla extends JFrame{
                             }
                         }
                         
-                        String[] fila = {frutos[indice].getProducto().getNombre(), Double.toString(frutos[indice].getProducto().getPrecio()), Integer.toString(frutos[indice].getProducto().getCantidad()), frutos[indice].getProducto().getTipoProducto().name()};
-                        modeloProducto.addRow(fila);
+                        if(frutos[indice].getProducto() != null){
+                            String[] fila = {frutos[indice].getProducto().getNombre(), Double.toString(frutos[indice].getProducto().getPrecio()), Integer.toString(frutos[indice].getProducto().getCantidad()), frutos[indice].getProducto().getTipoProducto().name()};
+                            modeloProducto.addRow(fila);
+                        }
                         
                     }
 
@@ -337,7 +342,7 @@ public class CrearSemilla extends JFrame{
         tablaSemilla.getSelectionModel().addListSelectionListener(oyenteSeleccion);
     }
     
-    private void limpiarTexto(){
+    private void limpiarTexto(){ //limpia los textField
         textoNombre.setText("");
         textoVida.setText("");
         textoPrecio.setText("");

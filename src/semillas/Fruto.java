@@ -12,12 +12,13 @@ public class Fruto extends Planta{
     static ImageIcon imagenListo = new ImageIcon("manzanaLista.png");
     private int cantidadProducto;
 
+    //Constructor
     public Fruto(String nombre, int vida, double precio){
         super(nombre, vida, precio);
     }
 
     @Override
-    public void run(){
+    public void run(){ //método que pone a correr el hilo de vida del fruto
         
         int duracionVida = (this.vida/this.producto.getCantidad());
         this.cantidadProducto=0;
@@ -64,7 +65,7 @@ public class Fruto extends Planta{
     }
 
 
-    public int getCantidadProducto(){
+    public int getCantidadProducto(){ //retorna la cantidad de producto generado por el fruto
         int intercambio;
         intercambio = this.cantidadProducto;
         this.cantidadProducto=0;

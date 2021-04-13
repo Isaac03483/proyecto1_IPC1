@@ -21,13 +21,14 @@ public abstract class Animal extends Thread{
     protected Parcela terreno;
     protected JLabel imagenEtiqueta;
 
-    {
+    { //método oculto que inicializa valores en 0
         this.cantidadAnimales = 0;
         this.criasDestazadas=0;
         this.comidaIngerida=0;
         this.productos = new Producto[0];
     }
 
+    //constructor
     public Animal(String nombre, int vida, double precio,TipoProducto tipo){
 
         this.nombre = nombre;
@@ -35,6 +36,8 @@ public abstract class Animal extends Thread{
         this.precio = precio;
         this.tipo = tipo;
     }
+
+    //getters y setters
 
     public String getNombre(){return this.nombre;}
 
@@ -57,8 +60,9 @@ public abstract class Animal extends Thread{
     @Override
     public abstract void run();
 
-    protected abstract void colocarImagen(ImageIcon imagen);
+    protected abstract void colocarImagen(ImageIcon imagen); //método abstracto
     
+    //método que agrega productos al arreglo productos de los animales
     public void agregarProducto(Producto productoNuevo){
 
         boolean productoRepetido = false;
@@ -79,7 +83,7 @@ public abstract class Animal extends Thread{
         }
     }
 
-    public void elegirTerreno(Parcela terreno, JLabel objeto){
+    public void elegirTerreno(Parcela terreno, JLabel objeto){ //método que almacena el espacio en memoria del terreno y su etiqueta en el que se colocará el animal
 
         this.terreno=terreno;
         this.imagenEtiqueta=objeto;

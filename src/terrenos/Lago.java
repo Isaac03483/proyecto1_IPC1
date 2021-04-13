@@ -15,6 +15,7 @@ public class Lago extends Terreno implements Runnable{
     private int cantidadActualPeces;
     private EstadoLago estado;
 
+    //constructor
     public Lago(){
         
         this.totalPeces = (int)(Math.random()*20)+5;
@@ -23,11 +24,12 @@ public class Lago extends Terreno implements Runnable{
         generarPeces();
     }
 
-    public void pescar(){
+    public void pescar(){ //método que disminuye el valor de los peces en el lago
         this.cantidadActualPeces--;
         this.setToolTipText("Faltan: "+cantidadActualPeces+" peces.");
     }
 
+    //getters y setters
     public void setIndiceBarco(int indice){this.indiceBarco = indice;}
 
     public int getIndiceBarco(){return this.indiceBarco;}
@@ -40,12 +42,12 @@ public class Lago extends Terreno implements Runnable{
 
 
     @Override
-    public void generarTerreno(){
+    public void generarTerreno(){ //agrega la imagen a la etiqueta
         this.setIcon(new ImageIcon(imagen1.getImage().getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH)));
     }
 
     @Override
-    public void run(){
+    public void run(){ //método que llena de peces el lago
         
         do {
 
@@ -63,7 +65,7 @@ public class Lago extends Terreno implements Runnable{
         
     }
 
-    public void generarPeces(){
+    public void generarPeces(){ //método que llama al hilo
         Thread generarPeces = new Thread(this);
         generarPeces.start();
     }

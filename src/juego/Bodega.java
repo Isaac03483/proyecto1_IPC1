@@ -124,7 +124,7 @@ public class Bodega {
     }
 
 
-    public static String presentarProductos(){
+    public static String presentarProductos(){ //presenta todos los productos que posee el jugador
 
         String presentar="";
         for(int i=0; i < p1.getArregloProductos().length;i++){
@@ -140,7 +140,7 @@ public class Bodega {
         return presentar;
     }
 
-    public static void subMenuComer(){
+    public static void subMenuComer(){ //le permite al jugador comer y recuperar vida
         int opcionAlimento=0;
         
         do {
@@ -170,7 +170,7 @@ public class Bodega {
         } while(opcionAlimento!=0);
     }
 
-    public static void elegirCantidad(int opcionProducto){
+    public static void elegirCantidad(int opcionProducto){ //almacena la cantidad que el jugador desea vender/comer
         int opcionCantidad=0;
         try{
             opcionCantidad=Integer.parseInt(JOptionPane.showInputDialog(null, "Producto seleccionado:"
@@ -181,13 +181,13 @@ public class Bodega {
                 if(opcionCantidad > p1.getArregloProductos()[opcionProducto-1].getCantidad()){
                     JOptionPane.showMessageDialog(null, "No puedes vender una cantidad de productos que no posees.", "SurvivalVille", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    p1.vender(opcionProducto, opcionCantidad);
+                    p1.vender(opcionProducto, opcionCantidad); //llama al método vender enviando el producto seleccionado y la cantidad de producto elegido
                 }
             } else if(opcionBodega==5){
                 if(opcionCantidad > p1.getArregloProductos()[opcionProducto-1].getCantidad()){
                     JOptionPane.showMessageDialog(null, "No puedes consumir tal cantidad de alimentos.", "SurvivalVille", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    p1.comer(opcionProducto, opcionCantidad);
+                    p1.comer(opcionProducto, opcionCantidad); //llama al método comer enviando el producto seleccionado y la cantidad de producto elegido
                 }
             }
         } catch(NumberFormatException e){

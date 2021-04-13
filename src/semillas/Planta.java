@@ -25,6 +25,7 @@ public abstract class Planta extends Thread{
         this.producto = null;
     }
 
+    //constructor
     public Planta(String nombre, int vida, double precio){
         this.nombre = nombre;
         this.vida = vida;
@@ -32,6 +33,7 @@ public abstract class Planta extends Thread{
         
     }
     
+    //getters y setters
     @Override
     public String toString(){return this.nombre;}
 
@@ -56,22 +58,22 @@ public abstract class Planta extends Thread{
 
     public abstract void colocarImagen(ImageIcon imagen);
 
-    public void elegirTerreno(Grama terreno, JLabel etiqueta) {
+    public void elegirTerreno(Grama terreno, JLabel etiqueta) { //hace referencia al espacio en memoria del terreno y su objeto en el que se colocará la planta
 
         this.terreno = terreno;
         this.imagenEtiqueta = etiqueta;
             
     }
 
-    public void agregarProducto(Producto productoNuevo){
+    public void agregarProducto(Producto productoNuevo){ //agrega el producto a la planta en caso de que no tenga
     
         this.producto = (Alimento)productoNuevo;
     
     }
 
-    public boolean productoAsignado(){
+    public boolean productoAsignado(){ //retorna un valor booleano dependiendo del estado del producto de la planta
 
-        if(this.producto!= null){
+        if(this.producto != null){
             return true;
         } else {
             return false;

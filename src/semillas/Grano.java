@@ -13,13 +13,14 @@ public class Grano extends Planta{
     static ImageIcon imagenListo = new ImageIcon("maizListo.png");
     static ImageIcon imagenMuerto = new ImageIcon("maizMuerto.png");
 
+    //constructor
     public Grano(String nombre, int vida, double precio){
         super(nombre, vida, precio);
 
     }
 
     @Override
-    public void run(){
+    public void run(){ //pone a correr el hilo de vida del grano
 
         this.terreno.cambiarEstado(EstadoGrama.CONSIEMBRA);
         this.imagenEtiqueta.setVisible(true);

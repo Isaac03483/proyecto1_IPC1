@@ -86,7 +86,7 @@ public class Mercado {
     }
 
 
-    private static void comprarAnimales(int opcionAnimal){
+    private static void comprarAnimales(int opcionAnimal){ //crea objetos de animales y se los agrega al jugador dependiendo de su seleccion
         int opcionCompra;
         
         try{
@@ -148,7 +148,7 @@ public class Mercado {
         }
     }
 
-    private static void agregarProducto(Animal animalComprado, int indice){
+    private static void agregarProducto(Animal animalComprado, int indice){ //agrega todos los productos al animal creado desde 0
 
         if(animalComprado instanceof Herbivoro){
 
@@ -203,18 +203,18 @@ public class Mercado {
         }while(opcionSemilla!=4);
     }
 
-    private static void comprarSemillas(int opcionSemilla){
+    private static void comprarSemillas(int opcionSemilla){ //crea objetos de Planta que son agregados al jugador
         int opcionCompra;
         
         try{
             opcionCompra= Integer.parseInt(JOptionPane.showInputDialog(null, "Bolsas de semillas disponibles:"
             +"\n"+presentarSemillas(opcionSemilla)
             +"Ingrese el dígito de la semilla que desea comprar:","SurvivalVille", JOptionPane.INFORMATION_MESSAGE));
-            if(opcionSemilla==1){
-                if(p1.getOro() >= granos[opcionCompra-1].getPrecio()){
+            if(opcionSemilla==1){ 
+                if(p1.getOro() >= granos[opcionCompra-1].getPrecio()){ //se verifica si posee el dinero suficiente para la compra
                     Grano granoCompra = new Grano(granos[opcionCompra-1].getNombre(), granos[opcionCompra-1].getVida(), granos[opcionCompra-1].getPrecio());
                     Alimento granoProducto = new Alimento(granos[opcionCompra-1].getProducto().getNombre(), granos[opcionCompra-1].getProducto().getPrecio(), granos[opcionCompra-1].getProducto().getCantidad(),((Alimento)granos[opcionCompra-1].getProducto()).getVida(), TipoProducto.GRANO);
-                    granoCompra.agregarProducto(granoProducto);
+                    granoCompra.agregarProducto(granoProducto); //se le agrega el producto de la planta selleccionada
                     p1.agregarPlanta(granoCompra);
                     p1.disminuirOro(granoCompra.getPrecio());
                     granos[opcionCompra-1].setCantidadAdquirida();
@@ -223,7 +223,7 @@ public class Mercado {
                     JOptionPane.showMessageDialog(null, "No cuentas con el oro suficiente.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
                 }
             } else {
-                if(p1.getOro() >= frutos[opcionCompra-1].getPrecio()){
+                if(p1.getOro() >= frutos[opcionCompra-1].getPrecio()){ //se verifica si posee el dinero suficiente
                     Fruto frutoCompra = new Fruto(frutos[opcionCompra-1].getNombre(), frutos[opcionCompra-1].getVida(), frutos[opcionCompra-1].getPrecio());
                     Alimento frutoProducto = new Alimento(frutos[opcionCompra-1].getProducto().getNombre(), frutos[opcionCompra-1].getProducto().getPrecio(), frutos[opcionCompra-1].getProducto().getCantidad(),((Alimento)frutos[opcionCompra-1].getProducto()).getVida(), TipoProducto.FRUTO);
                     frutoCompra.agregarProducto(frutoProducto);
@@ -262,7 +262,7 @@ public class Mercado {
     }
 
     //menú compra barco
-    private static void comprarBarco(){
+    private static void comprarBarco(){ //crea objetos  de barco y se los agrega al jugador
         int opcionBarco;
         do{
             opcionBarco=0;

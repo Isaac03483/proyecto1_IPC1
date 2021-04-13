@@ -13,6 +13,7 @@ public class Herbivoro extends Animal{
     private ImageIcon imagenLista = new ImageIcon("vacaLista.png");
     private ImageIcon imagenMuerta = new ImageIcon("vacaMuerta.png");
 
+    //constructor
     public Herbivoro(String nombre, int vida, double precio,TipoProducto tipo){
         super(nombre, vida, precio, tipo);
         
@@ -21,6 +22,7 @@ public class Herbivoro extends Animal{
     @Override
     public String toString(){return this.nombre;}
 
+    //método run que pone a correr la vida del animal
     @Override
     public void run(){
 
@@ -74,7 +76,7 @@ public class Herbivoro extends Animal{
 
 
     @Override
-    public void colocarImagen(ImageIcon imagen){
+    public void colocarImagen(ImageIcon imagen){ //método heredado que cambia la imagen de la etiqueta según el parmámetro enviado
         this.imagenEtiqueta.setIcon(new ImageIcon(imagen.getImage().getScaledInstance(this.imagenEtiqueta.getWidth(), this.imagenEtiqueta.getHeight(), Image.SCALE_SMOOTH)));
     }
 

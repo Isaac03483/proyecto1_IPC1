@@ -10,7 +10,7 @@ public class Desierto extends Terreno {
     
 
     @Override
-    public void generarTerreno(){
+    public void generarTerreno(){ //agrega la imagen a la etiqueta
         this.setIcon(new ImageIcon(imagen3.getImage().getScaledInstance(this.getWidth(), this.getHeight(), Image.SCALE_SMOOTH)));
     }
 }

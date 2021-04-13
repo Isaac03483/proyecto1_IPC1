@@ -43,6 +43,7 @@ public class Jugador extends Thread{
         this.barco= new Barco[0];
     }
     
+    //constructor
     public Jugador(String nombre, String nickName,double oro, int vida){
         this.nombre= nombre;
         this.nickName = nickName;
@@ -52,7 +53,7 @@ public class Jugador extends Thread{
     }
 
     @Override
-
+    //método que pone a correr el hilo de la vida del jugador
     public void run(){
         do {
 
@@ -79,37 +80,33 @@ public class Jugador extends Thread{
     }
 
     //métodos setters y getters
-    public void aumentarOro(double oro){
-        this.oro +=oro;
-        this.oroGenerado+=oro;
-        etiquetaOro.setText(Double.toString(this.oro));
-    }
-
-    public void disminuirOro(double oro){
+    public void disminuirOro(double oro){ //disminuye el oro
         this.oro -=oro;
         etiquetaOro.setText(Double.toString(this.oro));
     }
 
     public void comer(int opcionAlimento, int opcionCantidad){
-        
+        //al comer aumenta la vida del jugador así como la cantidad de alimento consumido
         this.vida += ((Alimento)productos[opcionAlimento-1]).getVida()*opcionCantidad;
         ((Alimento)productos[opcionAlimento-1]).restarCantidad(opcionCantidad);
         etiquetaVida.setText(Integer.toString(this.vida));
         this.alimentoConsumido+=opcionCantidad;
         JOptionPane.showMessageDialog(null, "Has recuperado vida.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
-        verificarProductoTerminado((opcionAlimento-1));
+        verificarProductoTerminado((opcionAlimento-1)); //se verifica si el jugador ya se ha acabado todo el producto
     }
 
     public void vender(int opcionProducto, int opcionCantidad){
+        //vender aumenta el oro del usuario así como el oro generado por la granja
         this.oro+= productos[opcionProducto-1].getPrecio()*opcionCantidad;
         this.oroGenerado+=productos[opcionProducto-1].getPrecio()*opcionCantidad;
         productos[opcionProducto-1].restarCantidad(opcionCantidad);
         etiquetaOro.setText(Double.toString(this.oro));
         JOptionPane.showMessageDialog(null, "Venta realizada con éxito.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
-        verificarProductoTerminado((opcionProducto-1));
+        verificarProductoTerminado((opcionProducto-1)); //se verifica que si el producto ya se ha acabado
         
     }
 
+    //getters y  setters
     public void setCeldas(){this.celdasCompradas++;}
 
     public void setVida(int vida){this.vida =vida;}
@@ -134,25 +131,25 @@ public class Jugador extends Thread{
 
     public Animal[] getArregloAnimales(){return this.animales;}
 
-    public String getInformacionAnimal(int indice){
+    public String getInformacionAnimal(int indice){ //muestra  toda la información relevante  del animal
         return "Nombre: "+animales[indice].getNombre()+" Precio: "+animales[indice].getPrecio()+" Vida: "+animales[indice].getVida()+".\n";
     }
 
     public Producto[] getArregloProductos(){return this.productos;}
 
-    public String getInformacionProducto(int indice){
+    public String getInformacionProducto(int indice){ //muestra  toda la información relevante  del producto
         return "Nombre: "+productos[indice].getNombre()+" Precio de venta: "+productos[indice].getPrecio()+" Cantidad: "+productos[indice].getCantidad()+".\n";
     }
 
     public Barco[] getArregloBarco(){return this.barco;}
 
-    public String getInformacionBarco(int indice){
+    public String getInformacionBarco(int indice){ //muestra  toda la información relevante  del barco
         return "Barco no: "+(indice +1)+" Peces Obtenidos: "+barco[indice].getNumPeces()+" Estado: "+barco[indice].getEstado()+".\n";
     }
 
     public Planta[] getArregloPlantas(){return this.semillas;}
 
-    public String getInformacionPlantas(int indice){
+    public String getInformacionPlantas(int indice){ //muestra  toda la información relevante  de la planta
         return "Nombre: "+ semillas[indice].getNombre()+" Vida: "+semillas[indice].getVida()+".\n";
     }
 
@@ -160,7 +157,7 @@ public class Jugador extends Thread{
     @Override
     public String toString(){return this.nickName;}
 
-    public void agregarAnimal(Animal nuevoAnimal){
+    public void agregarAnimal(Animal nuevoAnimal){ //agrega animales al arreglo del jugador
 
         animales = redimensionarAnimales(animales, nuevoAnimal);
 
@@ -168,13 +165,13 @@ public class Jugador extends Thread{
 
 
 
-    public void agregarPlanta(Planta nuevaPlanta){
+    public void agregarPlanta(Planta nuevaPlanta){ //agrega plantas al arreglo del jugador
 
         semillas = redimensionarPlantas(semillas, nuevaPlanta);
 
     } 
 
-    public void agregarProducto(Producto nuevoProducto){
+    public void agregarProducto(Producto nuevoProducto){ //agrega productos al arreglo del jugador
         
         int indice=0;
         boolean encontrado=false;
@@ -187,17 +184,17 @@ public class Jugador extends Thread{
         } 
 
         if(encontrado == true){
-            this.productos[indice].aumentarCantidad(nuevoProducto.getCantidad());
+            this.productos[indice].aumentarCantidad(nuevoProducto.getCantidad()); //si el producto se ha encontrado solo se aumenta la cantidad de producto
         } else if (encontrado == false){
             this.productos = redimensionarProductos(productos, nuevoProducto);
         }
 
         if(nuevoProducto instanceof Alimento){
-            this.alimentoGenerado+=nuevoProducto.getCantidad();
+            this.alimentoGenerado+=nuevoProducto.getCantidad(); //de ser un alimento se aumenta el número de alimento generado por la granda
         }
     }
 
-    public void agregarBarco(Barco nuevoBarco){
+    public void agregarBarco(Barco nuevoBarco){ //agrega barcos al arreglo del jugador
 
         Barco[] nArrego = new Barco[barco.length+1];
         for(int i = 0; i < barco.length; i++){
@@ -214,7 +211,7 @@ public class Jugador extends Thread{
         verificarBarco(lago, imagenBarco);
     }
 
-    public void verificarBarco(Lago lago, JLabel imagenEtiqueta){
+    public void verificarBarco(Lago lago, JLabel imagenEtiqueta){ //se verifica si el jugador posee barcos disponibles para colocar en el lago
         int indice = -2;
         for(int i = 0; i  < barco.length; i++){
             if(barco[i].getEstado() == EstadoBarco.DISPONIBLE){
@@ -241,7 +238,7 @@ public class Jugador extends Thread{
         }
     }
 
-    public void verificarProductoTerminado(int indice){
+    public void verificarProductoTerminado(int indice){ //se verifica si el producto se ha terminado por completo  para borrarlo
 
         if(productos[indice].getCantidad()==0){
             Producto[] nArreglo = new Producto[productos.length-1];
@@ -256,7 +253,7 @@ public class Jugador extends Thread{
         }
     }
 
-    public void colocarSemilla(Grama terreno, JLabel objetos, int opcionSemilla){
+    public void colocarSemilla(Grama terreno, JLabel objetos, int opcionSemilla){ //se ingresa el valor de la semilla que va a ser sembrada
 
         try {
             
@@ -272,7 +269,7 @@ public class Jugador extends Thread{
         }
     }
 
-    public void colocarAnimal(Parcela terreno, JLabel objetos, int opcionAnimal){
+    public void colocarAnimal(Parcela terreno, JLabel objetos, int opcionAnimal){ //se ingresa el valor del animal que va a ser criado
 
         try{
 
@@ -283,10 +280,10 @@ public class Jugador extends Thread{
             eliminarAnimal(opcionAnimal-1);
         } catch(ArrayIndexOutOfBoundsException e){
             JOptionPane.showMessageDialog(null, "Esta opción no se encuentra en el arreglo.", "SurvivalVille", JOptionPane.ERROR_MESSAGE);
-        }
+        } 
     }
 
-    public void eliminarSemilla(int indice){
+    public void eliminarSemilla(int indice){ //elimina la semilla del arreglo después de sembrarla
 
         Planta[] nArreglo = new Planta[semillas.length -1];
 
@@ -301,7 +298,7 @@ public class Jugador extends Thread{
         semillas = nArreglo;
     }
 
-    public void eliminarAnimal(int indice){
+    public void eliminarAnimal(int indice){ //elimina al animal del arreglo luego de ponerlo en una parcela
 
         Animal[] nArreglo = new Animal[animales.length-1];
 

@@ -576,7 +576,7 @@ public class Juego extends JFrame{
     }
 
     private void accionesGrama(int i, int j){
-        if(((Grama)terreno[i][j]).getEstado() == EstadoGrama.DISPONIBLE){
+        if(((Grama)terreno[i][j]).getEstado() == EstadoGrama.DISPONIBLE){ //si está disponible el terreno puede sembrar semillas
             int opcionSemilla=0;
 
             try{
@@ -598,23 +598,23 @@ public class Juego extends JFrame{
 
             }
             
-        } else if(((Grama)terreno[i][j]).getEstado() == EstadoGrama.CONSIEMBRA){
+        } else if(((Grama)terreno[i][j]).getEstado() == EstadoGrama.CONSIEMBRA){ //de estar con siembra debe esperar a que termine su proceso
 
             JOptionPane.showMessageDialog(null, "La siembra aún no se encuentra lista.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
 
-        } else if (((Grama)terreno[i][j]).getEstado() == EstadoGrama.SIEMBRALISTA){
+        } else if (((Grama)terreno[i][j]).getEstado() == EstadoGrama.SIEMBRALISTA){ //recoge la siembra si ya está lista
 
             
             p1.agregarProducto(((Grama)terreno[i][j]).getPlanta().getProducto()); //new Alimento(((Grama)terreno[i][j]).getPlanta().getProducto().getNombre(), ((Grama)terreno[i][j]).getPlanta().getProducto().getPrecio(),((Grama)terreno[i][j]).getPlanta().getProducto().getCantidad(), ((Alimento)((Grama)terreno[i][j]).getPlanta().getProducto()).getVida(), TipoProducto.SIEMBRA));
             ((Grama)terreno[i][j]).cambiarEstado(EstadoGrama.DISPONIBLE);
 
-        } else if(((Grama)terreno[i][j]).getEstado() == EstadoGrama.FRUTOLISTO){
+        } else if(((Grama)terreno[i][j]).getEstado() == EstadoGrama.FRUTOLISTO){ //recoge parte del producto producido por el fruto
 
             p1.agregarProducto(new Alimento(((Grama)terreno[i][j]).getPlanta().getProducto().getNombre(), ((Grama)terreno[i][j]).getPlanta().getProducto().getPrecio(), ((Fruto)((Grama)terreno[i][j]).getPlanta()).getCantidadProducto(), ((Alimento)((Grama)terreno[i][j]).getPlanta().getProducto()).getVida(), TipoProducto.FRUTO));
             JOptionPane.showMessageDialog(null, "Se ha recogido una parte de los productos.", "SuvivalVille", JOptionPane.INFORMATION_MESSAGE);
             ((Grama)terreno[i][j]).cambiarEstado(EstadoGrama.CONSIEMBRA);
             
-        } else if(((Grama)terreno[i][j]).getEstado() == EstadoGrama.INFERTIL){
+        } else if(((Grama)terreno[i][j]).getEstado() == EstadoGrama.INFERTIL){ //si es infertil debe pagar para limpiar el terreno
             
             try{
 
@@ -650,7 +650,7 @@ public class Juego extends JFrame{
     private void accionesCompra(int i, int j){
         if(!terreno[i][j].isEnabled()){
 
-            if(p1.getOro() >=precioTierra){
+            if(p1.getOro() >=precioTierra){ //si posee dinero suficiente entonces puede comprar más tierras
 
                 try{
 
@@ -687,17 +687,44 @@ public class Juego extends JFrame{
 
         if(terreno[i][j] instanceof Grama){
             if(((Grama)terreno[i][j]).getEstado() == EstadoGrama.DISPONIBLE){
-                terreno[i][j].setVisible(false);
-                int x = terreno[i][j].getX();
-                int y = terreno[i][j].getY();
-                int ancho = terreno[i][j].getWidth();
-                int largo = terreno[i][j].getHeight();
+                if(p1.getOro() >= precioTierra){ //si cuenta con el dinero suficiente puede comprar una nueva parcela
 
-                terreno[i][j] = new Parcela();
-                terreno[i][j].setBounds(x, y, ancho, largo);
-                panel.add(terreno[i][j]);
-                terreno[i][j].generarTerreno();
-                oyenteTerreno(i, j);
+                    try{
+
+                        int opcionCompra = Integer.parseInt(JOptionPane.showInputDialog(null, "Precio para crear Parcela: "+precioTierra
+                        +"\n¿Desea crear una parcela?"
+                        +"\n1. Sí."
+                        +"\n2. No.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE));
+    
+                        switch(opcionCompra){
+                            case 1:
+                            terreno[i][j].setVisible(false);
+                            int x = terreno[i][j].getX();
+                            int y = terreno[i][j].getY();
+                            int ancho = terreno[i][j].getWidth();
+                            int largo = terreno[i][j].getHeight();
+
+                            terreno[i][j] = new Parcela();
+                            terreno[i][j].setBounds(x, y, ancho, largo);
+                            panel.add(terreno[i][j]);
+                            terreno[i][j].generarTerreno();
+                            oyenteTerreno(i, j);
+                            JOptionPane.showMessageDialog(null, "Parcela creada con éxito.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
+                            p1.disminuirOro(precioTierra);
+                            break;
+                            case 2:
+                            break;
+                            default:
+                            break;
+                        }
+    
+                    } catch(NumberFormatException e){
+                        JOptionPane.showMessageDialog(null, "Solo puede ingresar  un valor numérico.", "SurvivalVille", JOptionPane.ERROR_MESSAGE);
+                    }
+                    
+                } else {
+                    JOptionPane.showMessageDialog(null, "No cuenta con el dinero suficiente", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
+                }
             } else {
                 JOptionPane.showMessageDialog(null, "El terreno se encuentra con una siembra en proceso.", "SurvivalVille", JOptionPane.INFORMATION_MESSAGE);
             }
@@ -722,7 +749,7 @@ public class Juego extends JFrame{
                         break;
                     }
                 }catch(NumberFormatException e){
-
+                    JOptionPane.showMessageDialog(null, "Debe ingresar un valor numérico.", "SurvivalVille", JOptionPane.ERROR_MESSAGE);
                 }
             } else if(((Parcela)terreno[i][j]).getEstado() == EstadoParcela.CONANIMAL){
 
@@ -780,7 +807,7 @@ public class Juego extends JFrame{
     }
     //fin espacio para acciones
 
-    public static void actualizarCeldasSembradas(Planta semilla){
+    public static void actualizarCeldasSembradas(Planta semilla){ //actualiza el número de celdas sembradas de la semilla que recibe como parámetro
         int indice =0;
         if(semilla instanceof Grano){
             for(int i = 0; i < granos.length; i++){
@@ -804,7 +831,7 @@ public class Juego extends JFrame{
         }
     }
 
-    public static void actualizarAnimalesDestazados(Animal animal){
+    public static void actualizarAnimalesDestazados(Animal animal){ //actualiza el número de animales destazados del animal enviado por parámetro
 
         int indice =0;
         if(animal instanceof Herbivoro){

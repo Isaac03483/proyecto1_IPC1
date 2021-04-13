@@ -128,7 +128,7 @@ public class Reporte extends JFrame{
         reporteJugador.addActionListener(oyenteAccion);
     }
 
-    private void agregarJugadores(){
+    private void agregarJugadores(){ //método que agrega todos los usuarios que han jugado
 
         modelo.setRowCount(0);
         modelo.setColumnCount(0);
@@ -146,7 +146,7 @@ public class Reporte extends JFrame{
         }
     }
 
-    private void oyenteAnimal(){
+    private void oyenteAnimal(){ 
 
         ActionListener oyenteAccion = new ActionListener(){
 
@@ -160,7 +160,7 @@ public class Reporte extends JFrame{
         reporteAnimal.addActionListener(oyenteAccion);
     }
 
-    private void agregarAnimales(){
+    private void agregarAnimales(){ //método que agrega toda la informacióń de los animales a la tabla
         modelo.setRowCount(0);
         modelo.setColumnCount(0);
         modelo.addColumn("Nombre Animal");
@@ -192,7 +192,7 @@ public class Reporte extends JFrame{
         reportePlanta.addActionListener(oyenteAccion);
     }
 
-    private void agregarPlanta(){
+    private void agregarPlanta(){ //método que agrega toda la información de las plantas a la tabla
         modelo.setRowCount(0);
         modelo.setColumnCount(0);
         modelo.addColumn("Nombre Planta");
